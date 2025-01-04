@@ -329,8 +329,10 @@ public class TelaManuntencao extends javax.swing.JFrame {
             }
             if (cont>1){
                 JOptionPane.showMessageDialog(null, "Não podem ser aplicados dois filtros de uma só vez!\nSelecione somente um filtro.", "Status do Checkbox", JOptionPane.INFORMATION_MESSAGE);
+                
             }
             DefaultListModel<String> listModel = new DefaultListModel<>();
+            listaResultado.setModel(listModel);
             if (id.getState()){
                 bd.filtraPorId(listModel, barraPesquisa.getText());
                 System.out.println(barraPesquisa.getText());
@@ -343,7 +345,9 @@ public class TelaManuntencao extends javax.swing.JFrame {
                 bd.filtraPorPrioridade(listModel, barraPesquisa.getText());
             }
             panelResultado.setVisible(true);
-            listaResultado.setModel(listModel); 
+            listaResultado.setModel(listModel);
+            listaResultado.setVisible(false);
+            listaResultado.setVisible(true);
         } catch (Exception e){
             // Só não termina a ação
         }

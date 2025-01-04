@@ -5,6 +5,7 @@
 package trabalhotp1.Controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import trabalhotp1.Model.Equipamento;
@@ -27,7 +28,7 @@ public class AcessoBancoDeDados {
         equipamentos.add(new Equipamento("Compressor"));
         equipamentos.add(new Equipamento("Paletizador"));
         equipamentos.add(new Equipamento("Empacotadora"));
-        manutencoes.add(new Manutencao(0, new Date(System.currentTimeMillis()-100000000), Prioridade.ALTA, funcionarios.get(0), equipamentos.get(0)));
+        manutencoes.add(new Manutencao(0, new Date(System.currentTimeMillis()), Prioridade.ALTA, funcionarios.get(0), equipamentos.get(0)));
         manutencoes.add(new Manutencao(1, new Date(), Prioridade.BAIXA, funcionarios.get(1), equipamentos.get(1)));
         manutencoes.add(new Manutencao(2, new Date(), Prioridade.MEDIA, funcionarios.get(2), equipamentos.get(2)));
     }
@@ -43,8 +44,18 @@ public class AcessoBancoDeDados {
         int ano = Integer.parseInt(""+param.charAt(6)+param.charAt(7)+param.charAt(8)+param.charAt(9));
         int mes = Integer.parseInt(""+param.charAt(3)+param.charAt(4));
         int dia = Integer.parseInt(""+param.charAt(0)+param.charAt(1));
+        
         for (Manutencao m : manutencoes){
-            if(ano==m.getData().getYear()){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(m.getData()); 
+            int diaMan = calendar.get(Calendar.DAY_OF_MONTH);
+            System.out.println(ano);
+            System.out.println(m.getData().getYear()+1900);
+            System.out.println(mes);
+            System.out.println(m.getData().getMonth());
+            System.out.println(dia);
+            System.out.println(diaMan);
+            if(ano==m.getData().getYear()+1900 && mes-1 == m.getData().getMonth() && dia == diaMan){
                 listModel.addElement(m.getId()+"");
             }
         }
