@@ -9,5 +9,9 @@ package trabalhotp1.Model;
  * @author bhdbr
  */
 public class Equipamento {
-    
+    private String nome;
+
+    public Equipamento(String nome) {
+        this.nome = nome;
+    }
 }
