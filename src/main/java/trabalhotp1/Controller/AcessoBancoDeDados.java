@@ -1,70 +1,89 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package trabalhotp1.Controller;
-
+import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import javax.swing.DefaultListModel;
 import trabalhotp1.Model.Equipamento;
 import trabalhotp1.Model.Funcionario;
 import trabalhotp1.Model.Manutencao;
 import trabalhotp1.Model.Prioridade;
 
-/**
- *
- * @author bhdbr
- */
 public class AcessoBancoDeDados {
-    private ArrayList<Funcionario> funcionarios = new ArrayList();
-    private ArrayList<Equipamento> equipamentos = new ArrayList();
-    private ArrayList<Manutencao> manutencoes =  new ArrayList();
-    public AcessoBancoDeDados(){
-        funcionarios.add(new Funcionario("Joao"));
-        funcionarios.add(new Funcionario("Pedro"));
-        funcionarios.add(new Funcionario("Jorge"));
-        equipamentos.add(new Equipamento("Compressor"));
-        equipamentos.add(new Equipamento("Paletizador"));
-        equipamentos.add(new Equipamento("Empacotadora"));
-        manutencoes.add(new Manutencao(0, new Date(System.currentTimeMillis()), Prioridade.ALTA, funcionarios.get(0), equipamentos.get(0)));
-        manutencoes.add(new Manutencao(1, new Date(), Prioridade.BAIXA, funcionarios.get(1), equipamentos.get(1)));
-        manutencoes.add(new Manutencao(2, new Date(), Prioridade.MEDIA, funcionarios.get(2), equipamentos.get(2)));
+    private ArrayList<Manutencao> manutencoes;
+
+    public AcessoBancoDeDados() {
+        try {
+            System.out.println("Diretório atual: " + System.getProperty("user.dir"));
+
+            manutencoes = lerDados("src/main/java/trabalhotp1/resources/Manutencoes.txt");
+        } catch (IOException | ParseException e) {
+            System.out.println("Erro ao processar o arquivo: " + e.getMessage());
+            manutencoes = new ArrayList<>();
+        }
     }
-    public void filtraPorId(DefaultListModel<String> listModel, String param){
-        for (Manutencao m : manutencoes){
-            if(param.equals(m.getId()+"")){
-                listModel.addElement(m.getId()+"");
+
+    public static ArrayList<Manutencao> lerDados(String arquivo) throws IOException, ParseException {
+    ArrayList<Manutencao> lista = new ArrayList<>();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
+        String linha;
+        while ((linha = reader.readLine()) != null) {
+            linha = linha.trim();
+            if (linha.isEmpty()) {
+                continue; // Ignora linhas vazias
+            }
+
+            String[] partes = linha.split(";");
+            if (partes.length < 5) {
+                System.out.println("Linha inválida, ignorada: " + linha);
+                continue;
+            }
+
+            try {
+                int id = Integer.parseInt(partes[0]);
+                Date data = dateFormat.parse(partes[1]);
+                Prioridade prioridade = Prioridade.valueOf(partes[2].toUpperCase());
+                ArrayList<Funcionario> funcionarios = criarFuncionarios(partes[3]);
+                Equipamento equipamento = new Equipamento(partes[4]);
+
+                Manutencao manutencao = new Manutencao(id, data, prioridade, null, equipamento);
+                for (Funcionario f : funcionarios) {
+                    manutencao.alocarFuncionario(f);
+                }
+                lista.add(manutencao);
+            } catch (NumberFormatException | ParseException e) {
+                System.out.println("Erro ao processar a linha: " + linha);
+                e.printStackTrace();
             }
         }
     }
-    public void filtraPorData(DefaultListModel<String> listModel, String param){
-        // dd/mm/yyyy
-        int ano = Integer.parseInt(""+param.charAt(6)+param.charAt(7)+param.charAt(8)+param.charAt(9));
-        int mes = Integer.parseInt(""+param.charAt(3)+param.charAt(4));
-        int dia = Integer.parseInt(""+param.charAt(0)+param.charAt(1));
-        
-        for (Manutencao m : manutencoes){
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(m.getData()); 
-            int diaMan = calendar.get(Calendar.DAY_OF_MONTH);
-            System.out.println(ano);
-            System.out.println(m.getData().getYear()+1900);
-            System.out.println(mes);
-            System.out.println(m.getData().getMonth());
-            System.out.println(dia);
-            System.out.println(diaMan);
-            if(ano==m.getData().getYear()+1900 && mes-1 == m.getData().getMonth() && dia == diaMan){
-                listModel.addElement(m.getId()+"");
+
+    return lista;
+}
+    
+
+
+    private static ArrayList<Funcionario> criarFuncionarios(String nomes) {
+        ArrayList<Funcionario> funcionarios = new ArrayList<>();
+        String[] nomesArray = nomes.split(",");
+        for (String nome : nomesArray) {
+            funcionarios.add(new Funcionario(nome.trim()));
+        }
+        return funcionarios;
+    }
+
+    public void exibirDados() {
+        if (manutencoes.isEmpty()) {
+            System.out.println("Nenhuma manutenção encontrada.");
+        } else {
+            for (Manutencao manutencao : manutencoes) {
+                System.out.println(manutencao);
             }
         }
     }
-    public void filtraPorPrioridade(DefaultListModel<String> listModel, String param){
-        
-    }
 
-
+    
 }
 
 

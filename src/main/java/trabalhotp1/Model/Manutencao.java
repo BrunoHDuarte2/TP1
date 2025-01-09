@@ -74,5 +74,15 @@ public class Manutencao {
     public void setEquipamento(Equipamento equipamento) {
         this.equipamento = equipamento;
     }
-    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Manutencao {")
+          .append("ID: ").append(id)
+          .append(", Data: ").append(data)
+          .append(", Prioridade: ").append(prioridade)
+          .append(", Funcionarios: [");       
+        return sb.toString();
+}
+
 }

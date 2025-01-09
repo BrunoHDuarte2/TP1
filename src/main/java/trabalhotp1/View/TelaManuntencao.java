@@ -6,9 +6,8 @@ package trabalhotp1.View;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import trabalhotp1.Controller.AcessoBancoDeDados;
+//import trabalhotp1.Controller.AcessoBancoDeDados;
 
 /**
  *
@@ -16,13 +15,13 @@ import trabalhotp1.Controller.AcessoBancoDeDados;
  */
 public class TelaManuntencao extends javax.swing.JFrame {
     private ArrayList<java.awt.Checkbox> checkboxes = new ArrayList();
-    private AcessoBancoDeDados bd;
+    //private AcessoBancoDeDados bd;
     /**
      * Creates new form TelaManuntencao
      */
     public TelaManuntencao() {
         initComponents();
-        bd = new AcessoBancoDeDados();
+        //bd = new AcessoBancoDeDados();
         this.setSize(980, 630);
         checkboxes.add(id);
         checkboxes.add(data);
@@ -334,15 +333,15 @@ public class TelaManuntencao extends javax.swing.JFrame {
             DefaultListModel<String> listModel = new DefaultListModel<>();
             listaResultado.setModel(listModel);
             if (id.getState()){
-                bd.filtraPorId(listModel, barraPesquisa.getText());
+              //  bd.filtraPorId(listModel, barraPesquisa.getText());
                 System.out.println(barraPesquisa.getText());
                 System.out.println(listModel);
             }
             if (data.getState()){
-                bd.filtraPorData(listModel, barraPesquisa.getText());
+                //bd.filtraPorData(listModel, barraPesquisa.getText());
             }
             if (prioridade.getState()){
-                bd.filtraPorPrioridade(listModel, barraPesquisa.getText());
+                //bd.filtraPorPrioridade(listModel, barraPesquisa.getText());
             }
             panelResultado.setVisible(true);
             listaResultado.setModel(listModel);

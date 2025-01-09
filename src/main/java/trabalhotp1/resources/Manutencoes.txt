@@ -1,0 +1,4 @@
+
+1;2025-01-01;Alta;Joao,Maria,Carlos;MaquinaX
+2;2025-01-02;Baixa;Pedro,Lucas;FerramentaY
+3;2025-01-03;Media;Ana,Marcos,Livia;EquipamentoZ
