@@ -78,6 +78,10 @@ public class TelaGeral extends javax.swing.JFrame {
         new TelaManuntencao().setVisible(true);
     }//GEN-LAST:event_manButtonActionPerformed
 
+    private void equiButtonActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        new TelaEquipamento().setVisible(true);
+    }                    
+    
     /**
      * @param args the command line arguments
      */
