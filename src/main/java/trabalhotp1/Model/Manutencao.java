@@ -81,7 +81,7 @@ public class Manutencao {
           .append("ID: ").append(id)
           .append(", Data: ").append(data)
           .append(", Prioridade: ").append(prioridade)
-          .append(", Funcionarios: [");       
+          .append(", Funcionarios");       
         return sb.toString();
 }
 

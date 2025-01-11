@@ -37,9 +37,18 @@ public class TelaGeral extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         funcButton.setText("Funcionários");
-
+        funcButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                funcButtonActionPerformed(evt);
+            }
+        });
         equiButton.setText("Equipamentos");
-
+        equiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                equiButtonActionPerformed(evt);
+            }
+        });
+        
         manButton.setText("Manutenções");
         manButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
