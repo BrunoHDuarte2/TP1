@@ -36,7 +36,7 @@ public class AcessoBancoDeDados {
                     int id = Integer.parseInt(partes[0]);
                     Date data = dateFormat.parse(partes[1]);
                     Prioridade prioridade = Prioridade.valueOf(partes[2].toUpperCase());
-                    ArrayList<Funcionario> funcionarios = criarFuncionarios(partes[3]);
+                    ArrayList<Funcionario> funcionarios = criarFuncionariosManutencao(partes[3]);
                     Equipamento equipamento = new Equipamento(partes[4]);
 
                     Manutencao manutencao = new Manutencao(id, data, prioridade, null, equipamento);
@@ -52,40 +52,28 @@ public class AcessoBancoDeDados {
 
 
 
-    private static ArrayList<Funcionario> criarFuncionarios(String funcionariosStr) throws ParseException {
+    private ArrayList<Funcionario> criarFuncionariosManutencao(String funcionariosStr) throws ParseException {
         ArrayList<Funcionario> funcionarios = new ArrayList<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        // Divide os dados de funcionários por "|"
         String[] funcionariosArray = funcionariosStr.split("\\|");
         for (String funcionarioStr : funcionariosArray) {
-            // Divide os campos de cada funcionário por ","
             String[] dados = funcionarioStr.split(",");
-            if (dados.length < 7) { // Verifica se há ao menos 7 campos para um funcionário válido
-                System.out.println("Dados de funcionário inválidos: " + funcionarioStr);
-                continue;
-            }
+            if (dados.length < 7) continue;
 
-            try {
-                // Extração dos campos do funcionário
-                String matricula = dados[0].trim();
-                String nome = dados[1].trim();
-                Date dataNascimento = dateFormat.parse(dados[2].trim());
-                String login = dados[3].trim();
-                String senha = dados[4].trim();
-                String setor = dados[5].trim();
-                Especialidade especialidade = Especialidade.valueOf(dados[6].trim().toUpperCase());
+            String matricula = dados[0];
+            String nome = dados[1];
+            Date dataNascimento = dateFormat.parse(dados[2]);
+            String login = dados[3];
+            String senha = dados[4];
+            String setor = dados[5];
+            Especialidade especialidade = Especialidade.valueOf(dados[6].toUpperCase());
 
-                // Cria o objeto Funcionario e o adiciona à lista
-                Funcionario funcionario = new Funcionario(matricula, nome, dataNascimento, login, senha, setor, especialidade);
-                funcionarios.add(funcionario);
-            } catch (IllegalArgumentException e) {
-                System.out.println("Especialidade inválida para o funcionário: " + funcionarioStr);
-            }
+            funcionarios.add(new Funcionario(matricula, nome, dataNascimento, login, senha, setor, especialidade));
         }
 
         return funcionarios;
-}
+    }
 
 
 
