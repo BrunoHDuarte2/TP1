@@ -1,93 +1,89 @@
+
+package trabalhotp1.Controller;
 import java.io.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import trabalhotp1.Model.Equipamento;
-import trabalhotp1.Model.Especialidade;
 import trabalhotp1.Model.Funcionario;
 import trabalhotp1.Model.Manutencao;
-import trabalhotp1.Model.Prioridade;
 
 public class AcessoBancoDeDados {
-    private ArrayList<Manutencao> manutencoes;
-    private ArrayList<Equipamento> equipamentos;
-    private ArrayList<Funcionario> funcionarios;
+    private String arquivoManutencao = "manutencao.dat";
+    private ArrayList<Manutencao> manutencoes = new ArrayList();
+    private String arquivoEquipamento = "equipamento.dat";
+    private ArrayList<Equipamento> equipamento = new ArrayList();
+    private String arquivoFuncionario = "funcionario.dat";
+    private ArrayList<Funcionario> funcionarios = new ArrayList();
 
-    public AcessoBancoDeDados() {
-        try {
-            
-            lerDadosManutencao("src/main/java/trabalhotp1/resources/Manutencoes.txt");
-        } catch (IOException | ParseException e) {
-            System.out.println("Erro ao processar o arquivo: " + e.getMessage());
-            manutencoes = new ArrayList<>();
+    public void salvarListaManutencoes(ArrayList<Manutencao> lista) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivoManutencao))) {
+            oos.writeObject(lista);
         }
     }
 
-    public void lerDadosManutencao(String arquivo) throws IOException, ParseException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String linha;
-                while ((linha = reader.readLine()) != null) {
-                    linha = linha.trim();
-                    if (linha.isEmpty()) continue;
+    public void carregarListaManutencoes() throws IOException, ClassNotFoundException {
+        File file = new File(arquivoManutencao);
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivoManutencao))) {
+            this.manutencoes = (ArrayList<Manutencao>) ois.readObject();
+        }
+    }
+    public void criarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        this.manutencoes.add(m);
+        this.salvarListaManutencoes(this.manutencoes);
+    }
+    public void deletarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        this.manutencoes.remove(m);
+        this.salvarListaManutencoes(this.manutencoes);
+    }
+    
 
-                    String[] partes = linha.split(";");
-                    int id = Integer.parseInt(partes[0]);
-                    Date data = dateFormat.parse(partes[1]);
-                    Prioridade prioridade = Prioridade.valueOf(partes[2].toUpperCase());
-                    ArrayList<Funcionario> funcionarios = criarFuncionariosManutencao(partes[3]);
-                    Equipamento equipamento = new Equipamento(partes[4]);
-
-                    Manutencao manutencao = new Manutencao(id, data, prioridade, null, equipamento);
-                    for (Funcionario f : funcionarios) {
-                        manutencao.alocarFuncionario(f);
-                    }
-                    manutencoes.add(manutencao);
-                }
-            } catch (IOException | ParseException e) {
-                System.out.println("Erro ao carregar dados: " + e.getMessage());
-            }
+    public String getArquivoManutencao() {
+        return arquivoManutencao;
     }
 
+    public void setArquivoManutencao(String arquivoManutencao) {
+        this.arquivoManutencao = arquivoManutencao;
+    }
 
+    public ArrayList<Manutencao> getManutencoes() {
+        return manutencoes;
+    }
 
-    private ArrayList<Funcionario> criarFuncionariosManutencao(String funcionariosStr) throws ParseException {
-        ArrayList<Funcionario> funcionarios = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public void setManutencoes(ArrayList<Manutencao> manutencoes) {
+        this.manutencoes = manutencoes;
+    }
 
-        String[] funcionariosArray = funcionariosStr.split("\\|");
-        for (String funcionarioStr : funcionariosArray) {
-            String[] dados = funcionarioStr.split(",");
-            if (dados.length < 7) continue;
+    public String getArquivoEquipamento() {
+        return arquivoEquipamento;
+    }
 
-            String matricula = dados[0];
-            String nome = dados[1];
-            Date dataNascimento = dateFormat.parse(dados[2]);
-            String login = dados[3];
-            String senha = dados[4];
-            String setor = dados[5];
-            Especialidade especialidade = Especialidade.valueOf(dados[6].toUpperCase());
+    public void setArquivoEquipamento(String arquivoEquipamento) {
+        this.arquivoEquipamento = arquivoEquipamento;
+    }
 
-            funcionarios.add(new Funcionario(matricula, nome, dataNascimento, login, senha, setor, especialidade));
-        }
+    public ArrayList<Equipamento> getEquipamento() {
+        return equipamento;
+    }
 
+    public void setEquipamento(ArrayList<Equipamento> equipamento) {
+        this.equipamento = equipamento;
+    }
+
+    public String getArquivoFuncionario() {
+        return arquivoFuncionario;
+    }
+
+    public void setArquivoFuncionario(String arquivoFuncionario) {
+        this.arquivoFuncionario = arquivoFuncionario;
+    }
+
+    public ArrayList<Funcionario> getFuncionarios() {
         return funcionarios;
     }
 
-
-
-    public void exibirDados() {
-        if (manutencoes.isEmpty()) {
-            System.out.println("Nenhuma manutenção encontrada.");
-        } else {
-            for (Manutencao manutencao : manutencoes) {
-                System.out.println(manutencao);
-            }
-        }
+    public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
     }
-
     
 }
-
-

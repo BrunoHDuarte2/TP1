@@ -3,27 +3,50 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package trabalhotp1.Model;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  *
  * @author bhdbr
  */
-public class Manutencao {
+public class Manutencao implements Serializable{
+    private static final long serialVersionUID = 1L;
+    
     private int id;
-    private Date data;
+    private Date dataAtual;
+    private Date dataEntrega;
     private Prioridade prioridade;
     private ArrayList<Funcionario> funcionarios = new ArrayList();
     private Equipamento equipamento;
-
-    public Manutencao(int id, Date data, Prioridade prioridade, Funcionario f, Equipamento equipamento) {
-        // Validação entre funcionário e equipamento.
-        this.equipamento = equipamento;
+    
+    /*
+        Padrão dataAtual serve como parametro para calcular a data de entrega junto a prioridade:
+            Prioridade Alta: 3 dias
+            Prioridade Media: 5 dias
+            Prioridade Baixa: 7 dias
+    */
+    
+    public Manutencao(int id, Prioridade prioridade, Funcionario f, Equipamento equipamento) {
         this.id = id;
-        this.data = data;
+        this.equipamento = equipamento;
         this.prioridade = prioridade;
+        this.funcionarios.add(f);
+        this.dataAtual = new Date();
+        this.calculaDias(prioridade);
     }
+
+    public Manutencao(int id, Prioridade prioridade, Equipamento equipamento, ArrayList<Funcionario> f) {
+        this.id = id;
+        this.prioridade = prioridade;
+        this.equipamento = equipamento;
+        this.funcionarios = f;
+        this.dataAtual = new Date();
+        this.calculaDias(prioridade);
+    }
+    
     public void alocarFuncionario(Funcionario f){
         if (!funcionarios.contains(f)){
             funcionarios.add(f);
@@ -34,7 +57,22 @@ public class Manutencao {
             funcionarios.remove(f);
         }
     }
-
+    public void calculaDias(Prioridade p){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.dataAtual);
+        if (p == Prioridade.ALTA){
+           calendar.add(Calendar.DAY_OF_MONTH, 3); 
+           this.dataEntrega = calendar.getTime();
+        }
+        if (p == Prioridade.MEDIA){
+            calendar.add(Calendar.DAY_OF_MONTH, 5);
+           this.dataEntrega = calendar.getTime();
+        }
+        if (p == Prioridade.BAIXA){
+            calendar.add(Calendar.DAY_OF_MONTH, 7);
+            this.dataEntrega = calendar.getTime();
+        }
+    }
     public int getId() {
         return id;
     }
@@ -43,12 +81,20 @@ public class Manutencao {
         this.id = id;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDataAtual() {
+        return dataAtual;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataAtual(Date dataAtual) {
+        this.dataAtual = dataAtual;
+    }
+
+    public Date getDataEntrega() {
+        return dataEntrega;
+    }
+
+    public void setDataEntrega(Date dataEntrega) {
+        this.dataEntrega = dataEntrega;
     }
 
     public Prioridade getPrioridade() {
@@ -77,11 +123,16 @@ public class Manutencao {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        
         sb.append("Manutencao {")
           .append("ID: ").append(id)
-          .append(", Data: ").append(data)
           .append(", Prioridade: ").append(prioridade)
-          .append(", Funcionarios");       
+          .append(", Funcionarios [");     
+        for (Funcionario f: funcionarios){
+            sb.append(f.getNome());
+        }
+        sb.append("], ").append("Equipamento: " + this.equipamento.getNome()+"}");
+        
         return sb.toString();
 }
 

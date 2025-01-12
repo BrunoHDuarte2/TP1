@@ -1,2 +1,0 @@
-1;2025-01-01;ALTA;123,João,1990-01-01,joao,senha123,TI,MANUTENCAO|124,Maria,1992-05-15,maria,senha456,Admin,GERENCIAMENTO;Equipamento1
-2;2025-02-01;MEDIA;125,Carlos,1993-08-21,carlos,senha789,Producao,RH;Equipamento2

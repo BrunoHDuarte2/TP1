@@ -4,6 +4,7 @@
  */
 package trabalhotp1.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -11,14 +12,14 @@ import java.util.Date;
  *
  * @author bhdbr
  */
-public class Funcionario {
+public class Funcionario implements Serializable {
     private String matricula;
     private String nome;
     private Date dataNascimento;
     private String login;
     private String senha; 
     private  String setor;
-    private ArrayList<Especialidade> Especialidade;
+    private ArrayList<Especialidade> Especialidade = new ArrayList();
 
     public Funcionario(String matricula, String nome, Date dataNascimento, String login, String senha, String setor, Especialidade especialidade) {
         this.matricula = matricula;
@@ -28,6 +29,62 @@ public class Funcionario {
         this.senha = senha;
         this.setor = setor;
         this.Especialidade.add(especialidade);
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getSetor() {
+        return setor;
+    }
+
+    public void setSetor(String setor) {
+        this.setor = setor;
+    }
+
+    public ArrayList<Especialidade> getEspecialidade() {
+        return Especialidade;
+    }
+
+    public void setEspecialidade(ArrayList<Especialidade> Especialidade) {
+        this.Especialidade = Especialidade;
     }
 
 }

@@ -4,14 +4,25 @@
  */
 package trabalhotp1.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author bhdbr
  */
-public class Equipamento {
+public class Equipamento implements Serializable{
     private String nome;
 
     public Equipamento(String nome) {
         this.nome = nome;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
 }
