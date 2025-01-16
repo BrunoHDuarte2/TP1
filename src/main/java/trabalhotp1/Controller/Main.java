@@ -19,21 +19,12 @@ import trabalhotp1.Model.Prioridade;
  * @author bhdbr
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
         AcessoBancoDeDados banco = new AcessoBancoDeDados();
 
         try {
             banco.carregarListaManutencoes();
-            System.out.println("Lista carregada:");
-            for (Manutencao m : banco.getManutencoes()) {
-                System.out.println(m);
-            }
-            banco.criarManutencao(new Manutencao(3, Prioridade.ALTA, new Funcionario("123", "Bruno", new Date(), "123", "123", "123", Especialidade.Eletrônica), new Equipamento("!@#")));
-            banco.carregarListaManutencoes();
-            System.out.println("Lista carregada:");
-            for (Manutencao m : banco.getManutencoes()) {
-                System.out.println(m);
-            }
+            banco.salvarListaManutencoes(new ArrayList<Manutencao>());
             
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();

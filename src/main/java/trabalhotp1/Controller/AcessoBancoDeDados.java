@@ -2,9 +2,14 @@
 package trabalhotp1.Controller;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.DefaultListModel;
 import trabalhotp1.Model.Equipamento;
+import trabalhotp1.Model.Especialidade;
 import trabalhotp1.Model.Funcionario;
 import trabalhotp1.Model.Manutencao;
+import trabalhotp1.Model.Prioridade;
 
 public class AcessoBancoDeDados {
     private String arquivoManutencao = "manutencao.dat";
@@ -14,6 +19,13 @@ public class AcessoBancoDeDados {
     private String arquivoFuncionario = "funcionario.dat";
     private ArrayList<Funcionario> funcionarios = new ArrayList();
 
+    // Métodos para o desenvolvimento da tela de manutenção.
+    public AcessoBancoDeDados() throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        
+        System.out.println("BUCETA");
+        System.out.println(this.manutencoes);
+    }
     public void salvarListaManutencoes(ArrayList<Manutencao> lista) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivoManutencao))) {
             oos.writeObject(lista);
@@ -22,6 +34,7 @@ public class AcessoBancoDeDados {
 
     public void carregarListaManutencoes() throws IOException, ClassNotFoundException {
         File file = new File(arquivoManutencao);
+        
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivoManutencao))) {
             this.manutencoes = (ArrayList<Manutencao>) ois.readObject();
         }
@@ -36,6 +49,42 @@ public class AcessoBancoDeDados {
         this.manutencoes.remove(m);
         this.salvarListaManutencoes(this.manutencoes);
     }
+    public void filtraPorId(DefaultListModel<String> listModel, String texto) throws IOException, ClassNotFoundException{
+        try{
+            this.carregarListaManutencoes();
+            for (Manutencao m : this.manutencoes){
+                if(m.getId() == Integer.parseInt(texto)){
+                    listModel.addElement(String.valueOf(m.getId()));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Exibe o erro no console
+        }
+    }
+    public void filtraPorData(DefaultListModel<String> listModel, String param) throws IOException, ClassNotFoundException{
+        int ano = Integer.parseInt(""+param.charAt(6)+param.charAt(7)+param.charAt(8)+param.charAt(9));
+        int mes = Integer.parseInt(""+param.charAt(3)+param.charAt(4));
+        int dia = Integer.parseInt(""+param.charAt(0)+param.charAt(1));
+        
+        for (Manutencao m : manutencoes){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(m.getDataAtual()); 
+            int diaMan = calendar.get(Calendar.DAY_OF_MONTH);
+            if(ano==m.getDataAtual().getYear()+1900 && mes-1 == m.getDataAtual().getMonth() && dia == diaMan){
+                listModel.addElement(m.getId()+"");
+            }
+        }
+    }
+    public void filtraPorPrioridade(DefaultListModel<String> listModel, String texto) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        for (Manutencao m : this.manutencoes){
+            if(m.getPrioridade() == Prioridade.valueOf(texto)){
+                listModel.addElement(String.valueOf(m.getId()));
+            }
+        } 
+    }
+    
+    //
     
 
     public String getArquivoManutencao() {
