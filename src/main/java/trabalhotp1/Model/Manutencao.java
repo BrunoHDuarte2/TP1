@@ -4,6 +4,7 @@
  */
 package trabalhotp1.Model;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -93,7 +94,23 @@ public class Manutencao implements Serializable{
     public Date getDataEntrega() {
         return dataEntrega;
     }
-
+    public String getDataEntregaFormat() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(dataEntrega);
+    }
+    public String getDataAtualFormat() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        return dateFormat.format(dataAtual);
+    }
+    public String[] getFuncionariosFormat(){
+        String[] s = new String[this.getFuncionarios().size()];
+        int i = 0;
+        for (Funcionario f : this.getFuncionarios()){
+            s[i] = f.getNome();
+            i++;
+        }
+        return s;
+    }
     public void setDataEntrega(Date dataEntrega) {
         this.dataEntrega = dataEntrega;
     }

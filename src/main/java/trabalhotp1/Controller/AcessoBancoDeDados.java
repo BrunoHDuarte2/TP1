@@ -1,5 +1,6 @@
 
 package trabalhotp1.Controller;
+import java.awt.List;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,8 +24,6 @@ public class AcessoBancoDeDados {
     public AcessoBancoDeDados() throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         
-        System.out.println("BUCETA");
-        System.out.println(this.manutencoes);
     }
     public void salvarListaManutencoes(ArrayList<Manutencao> lista) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivoManutencao))) {
@@ -48,6 +47,15 @@ public class AcessoBancoDeDados {
         this.carregarListaManutencoes();
         this.manutencoes.remove(m);
         this.salvarListaManutencoes(this.manutencoes);
+    }
+    public Manutencao pesquisa(int index) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        for(Manutencao m : this.manutencoes){
+            if(m.getId()==index){
+                return m;
+            }
+        }
+        return null;
     }
     public void filtraPorId(DefaultListModel<String> listModel, String texto) throws IOException, ClassNotFoundException{
         try{
@@ -113,7 +121,7 @@ public class AcessoBancoDeDados {
 
     public ArrayList<Equipamento> getEquipamento() {
         return equipamento;
-    }
+    }                                                                                       
 
     public void setEquipamento(ArrayList<Equipamento> equipamento) {
         this.equipamento = equipamento;

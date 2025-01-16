@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import trabalhotp1.Controller.AcessoBancoDeDados;
+import trabalhotp1.Model.Manutencao;
 //import trabalhotp1.Controller.AcessoBancoDeDados;
 
 /**
@@ -50,27 +51,27 @@ public class TelaManuntencao extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        funcionarios = new javax.swing.JList<>();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        removeFuncList = new javax.swing.JList<>();
+        dataEntregaTField = new javax.swing.JTextField();
+        prioridadeTField = new javax.swing.JTextField();
+        removeFuncButton = new javax.swing.JButton();
+        equipEdit = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jList4 = new javax.swing.JList<>();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        addFuncList = new javax.swing.JList<>();
+        addFuncButton = new javax.swing.JButton();
+        save = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        dataCriacao = new javax.swing.JLabel();
+        deleteButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        cadastrar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        funcCadList = new javax.swing.JList<>();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        equiCadList = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jList3 = new javax.swing.JList<>();
+        prioCad = new javax.swing.JList<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -106,47 +107,44 @@ public class TelaManuntencao extends javax.swing.JFrame {
 
         jLabel6.setText("Funcionários:");
 
-        funcionarios.setModel(new javax.swing.AbstractListModel<String>() {
+        removeFuncList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane3.setViewportView(funcionarios);
+        jScrollPane3.setViewportView(removeFuncList);
 
-        jTextField2.setText("jTextField2");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        dataEntregaTField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                dataEntregaTFieldActionPerformed(evt);
             }
         });
 
-        jTextField3.setText("jTextField3");
+        removeFuncButton.setText("Remover Funcionário");
 
-        jButton1.setText("Remover Funcionário");
+        equipEdit.setText("Equipamento: ");
 
-        jLabel7.setText("Equipamento: ");
-
-        jList4.setModel(new javax.swing.AbstractListModel<String>() {
+        addFuncList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane7.setViewportView(jList4);
+        jScrollPane7.setViewportView(addFuncList);
 
-        jButton3.setText("Adicionar Funcionário");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        addFuncButton.setText("Adicionar Funcionário");
+        addFuncButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                addFuncButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Salvar");
+        save.setText("Salvar");
 
         jLabel9.setText("Edite ou Delete a manutenção");
 
-        jLabel10.setText("Data Criação:");
+        dataCriacao.setText("Data Criação:");
 
-        jButton5.setText("Deletar");
+        deleteButton.setText("Deletar");
 
         javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
         panelInfo.setLayout(panelInfoLayout);
@@ -160,33 +158,34 @@ public class TelaManuntencao extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelInfoLayout.createSequentialGroup()
-                        .addComponent(jButton5)
+                        .addComponent(deleteButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4))
+                        .addComponent(save))
                     .addGroup(panelInfoLayout.createSequentialGroup()
-                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelInfoLayout.createSequentialGroup()
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(dataCriacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(equipEdit))
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(54, 54, 54))
+                            .addGroup(panelInfoLayout.createSequentialGroup()
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(6, 6, 6)
                                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(panelInfoLayout.createSequentialGroup()
-                                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(6, 6, 6)
-                                        .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addComponent(jLabel7))
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(54, 54, 54)
+                                    .addComponent(dataEntregaTField, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                                    .addComponent(prioridadeTField))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton3)
+                            .addComponent(addFuncButton)
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
+                            .addComponent(removeFuncButton, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         panelInfoLayout.setVerticalGroup(
@@ -204,54 +203,54 @@ public class TelaManuntencao extends javax.swing.JFrame {
                             .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton3)
-                            .addComponent(jButton1)))
+                            .addComponent(addFuncButton)
+                            .addComponent(removeFuncButton)))
                     .addGroup(panelInfoLayout.createSequentialGroup()
                         .addGap(0, 8, Short.MAX_VALUE)
-                        .addComponent(jLabel10)
+                        .addComponent(dataCriacao)
                         .addGap(18, 18, 18)
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(dataEntregaTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(prioridadeTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel7)))
+                        .addComponent(equipEdit)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(save)
+                    .addComponent(deleteButton))
                 .addGap(23, 23, 23))
         );
 
         getContentPane().add(panelInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 630, 240));
 
-        jButton2.setText("Cadastrar");
+        cadastrar.setText("Cadastrar");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        funcCadList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(funcCadList);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
+        equiCadList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane5.setViewportView(jList2);
+        jScrollPane5.setViewportView(equiCadList);
 
         jLabel2.setText("Prioridade:");
 
-        jList3.setModel(new javax.swing.AbstractListModel<String>() {
+        prioCad.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Alta", "Média", "Baixa"};
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane6.setViewportView(jList3);
+        jScrollPane6.setViewportView(prioCad);
 
         jLabel3.setText("Equipamento");
 
@@ -303,7 +302,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)))
+                        .addComponent(cadastrar)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -335,7 +334,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
                                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(cadastrar)
                 .addGap(23, 23, 23))
         );
 
@@ -483,6 +482,18 @@ public class TelaManuntencao extends javax.swing.JFrame {
         // TODO add your handling code here:
         String selectedValue = listaResultado.getSelectedValue();
         // muda as informações do panel de informações para as que representam o objeto selecionado.
+        try{
+            Manutencao m = bd.pesquisa(Integer.parseInt(selectedValue)); 
+            dataCriacao.setText("Data Criação: "+m.getDataAtualFormat());
+            dataEntregaTField.setText(m.getDataEntregaFormat());
+            prioridadeTField.setText(String.valueOf(m.getPrioridade()));
+            equipEdit.setText("Equipamento: "+(m.getEquipamento().getNome()));
+            //addFuncList.setListData(bd.funcionariosFora(m));
+            removeFuncList.setListData(m.getFuncionariosFormat());
+            
+        } catch (Exception e){
+            
+        }
         panelInfo.setVisible(true);
     }//GEN-LAST:event_listaResultadoMouseClicked
 
@@ -490,13 +501,13 @@ public class TelaManuntencao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_barraPesquisaActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void dataEntregaTFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataEntregaTFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_dataEntregaTFieldActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void addFuncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFuncButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_addFuncButtonActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
@@ -538,17 +549,19 @@ public class TelaManuntencao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addFuncButton;
+    private javax.swing.JList<String> addFuncList;
     private javax.swing.JTextField barraPesquisa;
+    private javax.swing.JButton cadastrar;
     private java.awt.Checkbox data;
-    private javax.swing.JList<String> funcionarios;
+    private javax.swing.JLabel dataCriacao;
+    private javax.swing.JTextField dataEntregaTField;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JList<String> equiCadList;
+    private javax.swing.JLabel equipEdit;
+    private javax.swing.JList<String> funcCadList;
     private java.awt.Checkbox id;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -557,13 +570,8 @@ public class TelaManuntencao extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
-    private javax.swing.JList<String> jList3;
-    private javax.swing.JList<String> jList4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -576,13 +584,16 @@ public class TelaManuntencao extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JList<String> listaResultado;
     private javax.swing.JPanel panelInfo;
     private javax.swing.JPanel panelResultado;
     private javax.swing.JButton pesquisar;
+    private javax.swing.JList<String> prioCad;
     private java.awt.Checkbox prioridade;
+    private javax.swing.JTextField prioridadeTField;
+    private javax.swing.JButton removeFuncButton;
+    private javax.swing.JList<String> removeFuncList;
+    private javax.swing.JButton save;
     // End of variables declaration//GEN-END:variables
 }
