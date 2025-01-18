@@ -13,6 +13,8 @@ import java.util.Date;
  * @author bhdbr
  */
 public class Funcionario implements Serializable {
+    private static final long serialVersionUID = 7526306044279317864L;
+    
     private String matricula;
     private String nome;
     private Date dataNascimento;

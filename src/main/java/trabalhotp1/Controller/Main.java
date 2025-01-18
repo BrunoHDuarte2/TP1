@@ -20,14 +20,11 @@ import trabalhotp1.Model.Prioridade;
  */
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        
         AcessoBancoDeDados banco = new AcessoBancoDeDados();
-
-        try {
-            banco.carregarListaManutencoes();
-            banco.salvarListaManutencoes(new ArrayList<Manutencao>());
-            
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+        banco.carregarListaManutencoes();
+        for (Manutencao m : banco.getManutencoes()){
+            System.out.println(m);
         }
     }
 }

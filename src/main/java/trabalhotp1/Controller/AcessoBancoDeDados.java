@@ -16,13 +16,15 @@ public class AcessoBancoDeDados {
     private String arquivoManutencao = "manutencao.dat";
     private ArrayList<Manutencao> manutencoes = new ArrayList();
     private String arquivoEquipamento = "equipamento.dat";
-    private ArrayList<Equipamento> equipamento = new ArrayList();
+    private ArrayList<Equipamento> equipamentos = new ArrayList();
     private String arquivoFuncionario = "funcionario.dat";
     private ArrayList<Funcionario> funcionarios = new ArrayList();
 
     // Métodos para o desenvolvimento da tela de manutenção.
     public AcessoBancoDeDados() throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
+        this.carregarListaFuncionarios();
+        this.carregarListaEquipamentos();
         
     }
     public void salvarListaManutencoes(ArrayList<Manutencao> lista) throws IOException {
@@ -33,11 +35,26 @@ public class AcessoBancoDeDados {
 
     public void carregarListaManutencoes() throws IOException, ClassNotFoundException {
         File file = new File(arquivoManutencao);
-        
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(arquivoManutencao))) {
+
+        // Verifica se o arquivo existe e não está vazio
+        if (!file.exists() || file.length() == 0) {
+            System.out.println("Arquivo manutencao.dat não encontrado ou está vazio. Criando lista vazia.");
+            this.manutencoes = new ArrayList<>();
+            return;
+        }
+
+        // Carrega os dados do arquivo
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             this.manutencoes = (ArrayList<Manutencao>) ois.readObject();
+        } catch (EOFException e) {
+            System.out.println("Fim do arquivo funcionarios.dat alcançado.");
+            this.manutencoes = new ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar funcionários: " + e.getMessage());
+            this.manutencoes = new ArrayList<>();
         }
     }
+
     public void criarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         this.manutencoes.add(m);
@@ -92,9 +109,89 @@ public class AcessoBancoDeDados {
         } 
     }
     
-    //
-    
+    // Métodos para desenvolver a tela de equipamentos
+    public void carregarListaEquipamentos() throws IOException, ClassNotFoundException {
+        File file = new File(arquivoEquipamento);
+        if (!file.exists() || file.length() == 0) { // Verifica se o arquivo existe ou está vazio
+            this.equipamentos = new ArrayList<>(); // Inicializa a lista como vazia
+            System.out.println("Arquivo equipamentos.dat está vazio ou não existe. Criando lista vazia.");
+            return;
+        }
 
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            this.equipamentos = (ArrayList<Equipamento>) ois.readObject();
+        } catch (EOFException e) {
+            System.out.println("Fim do arquivo alcançado. Nenhum dado carregado.");
+            this.equipamentos = new ArrayList<>(); // Inicializa a lista como vazia
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar equipamentos: " + e.getMessage());
+            this.equipamentos = new ArrayList<>();
+        }
+    }
+
+    public void salvarListaEquipamentos(ArrayList<Equipamento> lista) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivoEquipamento))) {
+            oos.writeObject(lista);
+        }
+    }
+    public void criarEquipamento(Equipamento e) throws IOException, ClassNotFoundException{
+        this.carregarListaEquipamentos();
+        this.equipamentos.add(e);
+        this.salvarListaEquipamentos(this.equipamentos);
+    }
+    public void deletarEquipamento(Equipamento m) throws IOException, ClassNotFoundException{
+        this.carregarListaEquipamentos();
+        this.equipamentos.remove(m);
+        this.salvarListaEquipamentos(this.equipamentos);
+    }
+    /*public Equipamento pesquisaEquipamento(int index) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        for(Equipamento m : this.equipamentos){
+            if(m.getId()==index){
+                return m;
+            }
+        }
+        return null;
+    }*/
+    // Métodos para desenvolver a tela de funcionários
+    public void carregarListaFuncionarios() throws IOException, ClassNotFoundException {
+        File file = new File(arquivoFuncionario);
+
+        // Verifica se o arquivo existe e não está vazio
+        if (!file.exists() || file.length() == 0) {
+            System.out.println("Arquivo funcionario.dat não encontrado ou está vazio. Criando lista vazia.");
+            this.funcionarios = new ArrayList<>();
+            return;
+        }
+
+        // Carrega os dados do arquivo
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            this.funcionarios = (ArrayList<Funcionario>) ois.readObject();
+        } catch (EOFException e) {
+            System.out.println("Fim do arquivo funcionario.dat alcançado.");
+            this.funcionarios = new ArrayList<>();
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar funcionário: " + e.getMessage());
+            this.funcionarios = new ArrayList<>();
+        }
+    }
+
+    public void salvarListaFuncionarios(ArrayList<Funcionario> lista) throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivoFuncionario))) {
+            oos.writeObject(lista);
+        }
+    }
+    public void criarFuncionario(Funcionario f) throws IOException, ClassNotFoundException{
+        this.carregarListaFuncionarios();
+        this.funcionarios.add(f);
+        this.salvarListaFuncionarios(this.funcionarios);
+    }
+    public void deletarFuncionario(Funcionario m) throws IOException, ClassNotFoundException{
+        this.carregarListaFuncionarios();
+        this.funcionarios.remove(m);
+        this.salvarListaFuncionarios(this.funcionarios);
+    }
+    
     public String getArquivoManutencao() {
         return arquivoManutencao;
     }
@@ -120,11 +217,11 @@ public class AcessoBancoDeDados {
     }
 
     public ArrayList<Equipamento> getEquipamento() {
-        return equipamento;
+        return equipamentos;
     }                                                                                       
 
     public void setEquipamento(ArrayList<Equipamento> equipamento) {
-        this.equipamento = equipamento;
+        this.equipamentos = equipamento;
     }
 
     public String getArquivoFuncionario() {

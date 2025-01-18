@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author bhdbr
  */
 public class Equipamento implements Serializable{
+    private static final long serialVersionUID = 4002096859286734082L;
     private String nome;
 
     public Equipamento(String nome) {
