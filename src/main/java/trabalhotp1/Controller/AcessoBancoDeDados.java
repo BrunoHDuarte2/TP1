@@ -55,9 +55,9 @@ public class AcessoBancoDeDados {
         }
     }
 
-    public void criarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
+    public void criarManutencao(Prioridade prioridade, Funcionario f, Equipamento equipamento) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
-        this.manutencoes.add(m);
+        this.manutencoes.add(new Manutencao(this.manutencoes.size(), prioridade, f, equipamento));
         this.salvarListaManutencoes(this.manutencoes);
     }
     public void deletarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
@@ -144,15 +144,15 @@ public class AcessoBancoDeDados {
         this.equipamentos.remove(m);
         this.salvarListaEquipamentos(this.equipamentos);
     }
-    /*public Equipamento pesquisaEquipamento(int index) throws IOException, ClassNotFoundException{
-        this.carregarListaManutencoes();
+    public Equipamento pesquisaEquipamento(String nome) throws IOException, ClassNotFoundException{
+        this.carregarListaEquipamentos();
         for(Equipamento m : this.equipamentos){
-            if(m.getId()==index){
+            if(m.getNome().equals(nome)){
                 return m;
             }
         }
         return null;
-    }*/
+    }
     // Métodos para desenvolver a tela de funcionários
     public void carregarListaFuncionarios() throws IOException, ClassNotFoundException {
         File file = new File(arquivoFuncionario);
@@ -191,7 +191,16 @@ public class AcessoBancoDeDados {
         this.funcionarios.remove(m);
         this.salvarListaFuncionarios(this.funcionarios);
     }
-    
+    public Funcionario pesquisaFuncionario(String mat) throws IOException, ClassNotFoundException{
+        this.carregarListaFuncionarios();
+        for(Funcionario m : this.funcionarios){
+            if(m.getMatricula().equals(mat)){
+                System.out.println(m);
+                return m;
+            }
+        }
+        return null;
+    }
     public String getArquivoManutencao() {
         return arquivoManutencao;
     }

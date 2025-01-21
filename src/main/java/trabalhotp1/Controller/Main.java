@@ -5,14 +5,8 @@
 package trabalhotp1.Controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import trabalhotp1.Model.Administrador;
 import trabalhotp1.Model.Equipamento;
-import trabalhotp1.Model.Especialidade;
-import trabalhotp1.Model.Funcionario;
-import trabalhotp1.Model.Manutencao;
-import trabalhotp1.Model.Prioridade;
+import trabalhotp1.Model.Estado;
 
 /**
  *
@@ -22,10 +16,8 @@ public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         
         AcessoBancoDeDados banco = new AcessoBancoDeDados();
-        banco.carregarListaManutencoes();
-        for (Manutencao m : banco.getManutencoes()){
-            System.out.println(m);
-        }
+        banco.criarEquipamento(new Equipamento("Mixer", 1, "AR15", Estado.INSTALADO));
+        banco.criarEquipamento(new Equipamento("Blender", 2, "AR15", Estado.INSTALADO));
     }
 }
 

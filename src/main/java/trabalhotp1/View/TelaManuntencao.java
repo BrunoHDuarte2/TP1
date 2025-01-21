@@ -4,11 +4,19 @@
  */
 package trabalhotp1.View;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import trabalhotp1.Controller.AcessoBancoDeDados;
+import trabalhotp1.Model.Equipamento;
+import trabalhotp1.Model.Funcionario;
 import trabalhotp1.Model.Manutencao;
+import trabalhotp1.Model.Prioridade;
 //import trabalhotp1.Controller.AcessoBancoDeDados;
 
 /**
@@ -32,6 +40,10 @@ public class TelaManuntencao extends javax.swing.JFrame {
         checkboxes.add(id);
         checkboxes.add(data);
         checkboxes.add(prioridade);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        prioCad.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        equiCadList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        funcCadList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
     }
 
@@ -72,13 +84,13 @@ public class TelaManuntencao extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         prioCad = new javax.swing.JList<>();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nomeEquipamento = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        matriculaFunc = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        pesquisarFuncio = new javax.swing.JButton();
+        pesquisarEqui = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -228,45 +240,50 @@ public class TelaManuntencao extends javax.swing.JFrame {
         getContentPane().add(panelInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 630, 240));
 
         cadastrar.setText("Cadastrar");
-
-        funcCadList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        cadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cadastrarActionPerformed(evt);
+            }
         });
+
         jScrollPane2.setViewportView(funcCadList);
 
-        equiCadList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane5.setViewportView(equiCadList);
 
         jLabel2.setText("Prioridade:");
 
         prioCad.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Alta", "Média", "Baixa"};
+            String[] strings = { "Alta", "Media", "Baixa"};
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane6.setViewportView(prioCad);
 
-        jLabel3.setText("Equipamento");
-
-        jLabel8.setText("Funcionários");
-
         jLabel12.setText("Crie uma manutenção.");
 
         jLabel1.setText("Nome do Equipamento:");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        matriculaFunc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                matriculaFuncActionPerformed(evt);
             }
         });
 
         jLabel13.setText("Matrícula do Funcionário:");
+
+        pesquisarFuncio.setText("Pesquisar");
+        pesquisarFuncio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisarFuncioActionPerformed(evt);
+            }
+        });
+
+        pesquisarEqui.setText("Pesquisar");
+        pesquisarEqui.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pesquisarEquiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -284,22 +301,22 @@ public class TelaManuntencao extends javax.swing.JFrame {
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(79, 79, 79)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1)))
+                                .addComponent(nomeEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pesquisarEqui)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(matriculaFunc)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(pesquisarFuncio))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cadastrar)))
@@ -308,32 +325,30 @@ public class TelaManuntencao extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(6, 6, 6)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nomeEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(matriculaFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pesquisarFuncio)
+                    .addComponent(pesquisarEqui))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(39, 39, 39)
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 12, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel8))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 28, Short.MAX_VALUE)
                 .addComponent(cadastrar)
                 .addGap(23, 23, 23))
         );
@@ -509,9 +524,68 @@ public class TelaManuntencao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addFuncButtonActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void matriculaFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matriculaFuncActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_matriculaFuncActionPerformed
+
+    private void pesquisarEquiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarEquiActionPerformed
+        try {
+            // TODO add your handling code here:
+            Equipamento m = bd.pesquisaEquipamento(nomeEquipamento.getText());
+            if (m!=null){
+                String[] data = {m.getNome()};
+                equiCadList.setListData(data);
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível encontrar esse elemento!", "Erro", JOptionPane.INFORMATION_MESSAGE);
+           
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_pesquisarEquiActionPerformed
+
+    private void pesquisarFuncioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pesquisarFuncioActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            Funcionario m = bd.pesquisaFuncionario(matriculaFunc.getText());
+            if (m!=null){
+                String[] data = {m.getMatricula()};
+                funcCadList.setListData(data);
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível encontrar esse elemento!", "Erro", JOptionPane.INFORMATION_MESSAGE);
+           
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_pesquisarFuncioActionPerformed
+
+    private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
+        // TODO add your handling code here:    
+        if (funcCadList.getSelectedValue() == null || 
+            equiCadList.getSelectedValue() == null || 
+            prioCad.getSelectedValue() == null) {
+            JOptionPane.showMessageDialog(null, "Necessário selecionar pelo menos um campo em todas as opções!", "Erro", JOptionPane.INFORMATION_MESSAGE);
+           
+        } else {
+            try {
+                bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
+                bd.pesquisaFuncionario(funcCadList.getSelectedValue()),
+                bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
+                JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
+           
+            } catch (IOException ex) {
+                Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -566,11 +640,9 @@ public class TelaManuntencao extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -583,12 +655,14 @@ public class TelaManuntencao extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JList<String> listaResultado;
+    private javax.swing.JTextField matriculaFunc;
+    private javax.swing.JTextField nomeEquipamento;
     private javax.swing.JPanel panelInfo;
     private javax.swing.JPanel panelResultado;
     private javax.swing.JButton pesquisar;
+    private javax.swing.JButton pesquisarEqui;
+    private javax.swing.JButton pesquisarFuncio;
     private javax.swing.JList<String> prioCad;
     private java.awt.Checkbox prioridade;
     private javax.swing.JTextField prioridadeTField;
