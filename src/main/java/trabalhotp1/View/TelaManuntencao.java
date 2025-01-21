@@ -498,7 +498,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
         String selectedValue = listaResultado.getSelectedValue();
         // muda as informações do panel de informações para as que representam o objeto selecionado.
         try{
-            Manutencao m = bd.pesquisa(Integer.parseInt(selectedValue)); 
+            Manutencao m = bd.pesquisaManutencao(Integer.parseInt(selectedValue)); 
             dataCriacao.setText("Data Criação: "+m.getDataAtualFormat());
             dataEntregaTField.setText(m.getDataEntregaFormat());
             prioridadeTField.setText(String.valueOf(m.getPrioridade()));

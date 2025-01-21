@@ -65,7 +65,7 @@ public class AcessoBancoDeDados {
         this.manutencoes.remove(m);
         this.salvarListaManutencoes(this.manutencoes);
     }
-    public Manutencao pesquisa(int index) throws IOException, ClassNotFoundException{
+    public Manutencao pesquisaManutencao(int index) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         for(Manutencao m : this.manutencoes){
             if(m.getId()==index){
