@@ -102,6 +102,9 @@ public class Manutencao implements Serializable{
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(dataAtual);
     }
+    public boolean validaFuncionario(){
+        
+    }
     public String[] getFuncionariosFormat(){
         String[] s = new String[this.getFuncionarios().size()];
         int i = 0;

@@ -13,10 +13,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import trabalhotp1.Controller.AcessoBancoDeDados;
+import trabalhotp1.Model.Eletrico;
+import trabalhotp1.Model.Eletronico;
 import trabalhotp1.Model.Equipamento;
+import trabalhotp1.Model.Especialidade;
 import trabalhotp1.Model.Funcionario;
 import trabalhotp1.Model.Manutencao;
 import trabalhotp1.Model.Prioridade;
+import trabalhotp1.Model.Quimico;
 //import trabalhotp1.Controller.AcessoBancoDeDados;
 
 /**
@@ -36,7 +40,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
         } catch (Exception e){
             
         }
-        this.setSize(1037, 528);
+        this.setSize(1037, 540);
         checkboxes.add(id);
         checkboxes.add(data);
         checkboxes.add(prioridade);
@@ -91,6 +95,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         pesquisarFuncio = new javax.swing.JButton();
         pesquisarEqui = new javax.swing.JButton();
+        funcAdd = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -193,7 +198,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(6, 6, 6)
                                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(dataEntregaTField, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                                    .addComponent(dataEntregaTField, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
                                     .addComponent(prioridadeTField))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -203,7 +208,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3)
                             .addComponent(removeFuncButton, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
         panelInfoLayout.setVerticalGroup(
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,6 +256,11 @@ public class TelaManuntencao extends javax.swing.JFrame {
             }
         });
 
+        funcCadList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                funcCadListMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(funcCadList);
 
         jScrollPane5.setViewportView(equiCadList);
@@ -290,6 +300,8 @@ public class TelaManuntencao extends javax.swing.JFrame {
             }
         });
 
+        funcAdd.setText("Funcionários Adicionados:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -314,14 +326,16 @@ public class TelaManuntencao extends javax.swing.JFrame {
                                 .addComponent(pesquisarEqui)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(matriculaFunc)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(pesquisarFuncio))))
+                                .addComponent(pesquisarFuncio))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(funcAdd)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cadastrar)))
@@ -354,9 +368,11 @@ public class TelaManuntencao extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(funcAdd)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(cadastrar)
-                .addGap(23, 23, 23))
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 970, 230));
@@ -558,7 +574,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
             // TODO add your handling code here:
             Funcionario m = bd.pesquisaFuncionario(matriculaFunc.getText());
             if (m!=null){
-                String[] data = {m.getMatricula()};
+                String[] data = {m.getNome()+"/"+m.getMatricula()};
                 funcCadList.setListData(data);
             } else {
                 JOptionPane.showMessageDialog(null, "Não foi possível encontrar esse elemento!", "Erro", JOptionPane.INFORMATION_MESSAGE);
@@ -573,16 +589,36 @@ public class TelaManuntencao extends javax.swing.JFrame {
 
     private void cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarActionPerformed
         // TODO add your handling code here:    
-        if (funcCadList.getSelectedValue() == null || 
+        if (funcAdd.getText().split(" ").length == 1 || 
             equiCadList.getSelectedValue() == null || 
             prioCad.getSelectedValue() == null) {
             JOptionPane.showMessageDialog(null, "Necessário selecionar pelo menos um campo em todas as opções!", "Erro", JOptionPane.INFORMATION_MESSAGE);
-           
         } else {
             try {
+                // Funcionários selecionados:
+                String[] f = funcAdd.getText().split(" ");
+                if (f.length == 2){
+                    // {"funcionários:", x} -> Somente um funcionário
+                    // x tem o formato nome/matr
+                    String[] func = f[1].split("/");
+                    
+                    if (this.validaFuncionario(bd.pesquisaFuncionario(func[1]), bd.pesquisaEquipamento(equiCadList.getSelectedValue()))){
+                        bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
+                                    bd.pesquisaFuncionario(func[1]),
+                                    bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Pelo menos um dos funcionários selecionados teve conter os requisitos para lidar com tal equipamento!"
+                                ,"Erro", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } if (f.length > 2){
+                    // Adicionando mais de um funcionário
+                    for (String s : f){
+                       
+                    }
+                }
                 bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
-                bd.pesquisaFuncionario(funcCadList.getSelectedValue()),
-                bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
+                                    bd.pesquisaFuncionario(funcCadList.getSelectedValue()),
+                                    bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
                 JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
                 funcCadList.setModel(new DefaultListModel());
                 prioCad.clearSelection();
@@ -624,6 +660,33 @@ public class TelaManuntencao extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void funcCadListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_funcCadListMouseClicked
+        // TODO add your handling code here:
+        String[] res = funcAdd.getText().split(" ");
+        boolean remov = false;
+        for (String s : res){
+            if (funcCadList.getSelectedValue().equals(s)){
+                funcAdd.setText(funcAdd.getText().replaceAll(s, ""));
+                remov = true;
+            }
+        }
+        if (!remov){
+            funcAdd.setText(funcAdd.getText()+" "+funcCadList.getSelectedValue());
+        }
+        
+    }//GEN-LAST:event_funcCadListMouseClicked
+    public boolean validaFuncionario(Funcionario f, Equipamento e){
+        if ((e instanceof Eletronico) && f.getEspecialidade().contains(Especialidade.Eletrônica)) {
+            return true;
+        }
+        if ((e instanceof Eletrico) && f.getEspecialidade().contains(Especialidade.Elétrica)) {
+            return true;
+        }
+        if ((e instanceof Quimico) && f.getEspecialidade().contains(Especialidade.Química)) {
+            return true;
+        }
+        return false;
+    }
     /**
      * @param args the command line arguments
      */
@@ -670,6 +733,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JList<String> equiCadList;
     private javax.swing.JLabel equipEdit;
+    private javax.swing.JLabel funcAdd;
     private javax.swing.JList<String> funcCadList;
     private java.awt.Checkbox id;
     private javax.swing.JLabel jLabel1;
