@@ -596,37 +596,55 @@ public class TelaManuntencao extends javax.swing.JFrame {
         } else {
             try {
                 // Funcionários selecionados:
-                String[] f = funcAdd.getText().split(" ");
-                if (f.length == 2){
-                    // {"funcionários:", x} -> Somente um funcionário
+                String[] valoresEscritos = funcAdd.getText().split(" ");
+                if (valoresEscritos.length == 3){
+                    // {"funcionários","adicionados:", x} -> Somente um funcionário
                     // x tem o formato nome/matr
-                    String[] func = f[1].split("/");
-                    
+                    String[] func = valoresEscritos[2].split("/");
                     if (this.validaFuncionario(bd.pesquisaFuncionario(func[1]), bd.pesquisaEquipamento(equiCadList.getSelectedValue()))){
                         bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
-                                    bd.pesquisaFuncionario(func[1]),
+                                    bd.pesquisaFuncionario(func[2]),
                                     bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
+                        JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
+                
                     } else {
                         JOptionPane.showMessageDialog(null, "Pelo menos um dos funcionários selecionados teve conter os requisitos para lidar com tal equipamento!"
                                 ,"Erro", JOptionPane.INFORMATION_MESSAGE);
                     }
-                } if (f.length > 2){
+                } if (valoresEscritos.length > 3){
                     // Adicionando mais de um funcionário
-                    for (String s : f){
-                       
+                    boolean ok = false;
+                    ArrayList<Funcionario> funcionariosAdd = new ArrayList();
+                    for (int i = 2; i<valoresEscritos.length; i++){
+                        String nomeMatr = String.valueOf(valoresEscritos[i]);
+                        String[] funcionario = nomeMatr.split("/");
+                        if(validaFuncionario(bd.pesquisaFuncionario(funcionario[1]), bd.pesquisaEquipamento(equiCadList.getSelectedValue()))){
+                           ok = true;
+                       }
+                        funcionariosAdd.add(bd.pesquisaFuncionario(funcionario[1]));
+                    }
+                    if (ok){
+                        bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
+                                    funcionariosAdd,
+                                    bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
+                        JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Pelo menos um dos funcionários selecionados teve conter os requisitos para lidar com tal equipamento!"
+                                ,"Erro", JOptionPane.INFORMATION_MESSAGE);
+                    
                     }
                 }
-                bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
-                                    bd.pesquisaFuncionario(funcCadList.getSelectedValue()),
-                                    bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
-                JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
+                if (valoresEscritos.length < 3){
+                    JOptionPane.showMessageDialog(null, "É necessário alocar pelo menos um funcionário para essa manutenção!"
+                                ,"Erro", JOptionPane.INFORMATION_MESSAGE);
+                }
                 funcCadList.setModel(new DefaultListModel());
                 prioCad.clearSelection();
                 equiCadList.setModel(new DefaultListModel());
                 nomeEquipamento.setText("");
                 matriculaFunc.setText("");
-                
-           
+                funcAdd.setText("Funcionários Adicionados:");
+                bd.carregarListaManutencoes();
             } catch (IOException ex) {
                 Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -640,9 +658,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
             // TODO add your handling code here:
             int index = Integer.parseInt(listaResultado.getSelectedValue());
             bd.deletarManutencao(bd.pesquisaManutencao(index));
-            for(Manutencao m : bd.getManutencoes()){
-                System.out.println(m);
-            }
+         
             JOptionPane.showMessageDialog(null, "Manutenção apagada com sucesso!", ":)", JOptionPane.INFORMATION_MESSAGE);
             listaResultado.setModel(new DefaultListModel());
             dataCriacao.setText("Data Criação:");

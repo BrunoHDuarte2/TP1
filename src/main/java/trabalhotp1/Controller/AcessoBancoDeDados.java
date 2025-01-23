@@ -59,6 +59,11 @@ public class AcessoBancoDeDados {
         this.manutencoes.add(new Manutencao(this.manutencoes.size(), prioridade, f, equipamento));
         this.salvarListaManutencoes(this.manutencoes);
     }
+    public void criarManutencao(Prioridade prioridade, ArrayList<Funcionario> f, Equipamento equipamento) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        this.manutencoes.add(new Manutencao(this.manutencoes.size(), prioridade, equipamento, f));
+        this.salvarListaManutencoes(this.manutencoes);
+    }
     public void deletarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         Manutencao mCerta = null;
@@ -110,7 +115,7 @@ public class AcessoBancoDeDados {
     public void filtraPorPrioridade(DefaultListModel<String> listModel, String texto) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         for (Manutencao m : this.manutencoes){
-            if(m.getPrioridade() == Prioridade.valueOf(texto)){
+            if(m.getPrioridade() == Prioridade.valueOf(texto.toUpperCase())){
                 listModel.addElement(String.valueOf(m.getId()));
             }
         } 
@@ -154,7 +159,7 @@ public class AcessoBancoDeDados {
     public Equipamento pesquisaEquipamento(String nome) throws IOException, ClassNotFoundException{
         this.carregarListaEquipamentos();
         for(Equipamento m : this.equipamentos){
-            if(m.getNome().equals(nome)){
+            if(m.getNome().toUpperCase().equals(nome.toUpperCase())){
                 return m;
             }
         }
