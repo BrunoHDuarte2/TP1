@@ -157,6 +157,11 @@ public class TelaManuntencao extends javax.swing.JFrame {
         dataCriacao.setText("Data Criação:");
 
         deleteButton.setText("Deletar");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelInfoLayout = new javax.swing.GroupLayout(panelInfo);
         panelInfo.setLayout(panelInfoLayout);
@@ -331,11 +336,12 @@ public class TelaManuntencao extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel13))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nomeEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(matriculaFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pesquisarFuncio)
-                    .addComponent(pesquisarEqui))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pesquisarFuncio, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(nomeEquipamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(matriculaFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pesquisarEqui)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
@@ -503,7 +509,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
             dataEntregaTField.setText(m.getDataEntregaFormat());
             prioridadeTField.setText(String.valueOf(m.getPrioridade()));
             equipEdit.setText("Equipamento: "+(m.getEquipamento().getNome()));
-            //addFuncList.setListData(bd.funcionariosFora(m));
+            addFuncList.setListData(bd.getFuncionariosFormat());
             removeFuncList.setListData(m.getFuncionariosFormat());
             
         } catch (Exception e){
@@ -578,6 +584,12 @@ public class TelaManuntencao extends javax.swing.JFrame {
                 bd.pesquisaFuncionario(funcCadList.getSelectedValue()),
                 bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
                 JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
+                funcCadList.setModel(new DefaultListModel());
+                prioCad.clearSelection();
+                equiCadList.setModel(new DefaultListModel());
+                nomeEquipamento.setText("");
+                matriculaFunc.setText("");
+                
            
             } catch (IOException ex) {
                 Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
@@ -586,6 +598,31 @@ public class TelaManuntencao extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cadastrarActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        try {
+            // TODO add your handling code here:
+            int index = Integer.parseInt(listaResultado.getSelectedValue());
+            bd.deletarManutencao(bd.pesquisaManutencao(index));
+            for(Manutencao m : bd.getManutencoes()){
+                System.out.println(m);
+            }
+            JOptionPane.showMessageDialog(null, "Manutenção apagada com sucesso!", ":)", JOptionPane.INFORMATION_MESSAGE);
+            listaResultado.setModel(new DefaultListModel());
+            dataCriacao.setText("Data Criação:");
+            dataEntregaTField.setText(" ");
+            prioridadeTField.setText(" ");
+            equipEdit.setText("Equipamento: ");
+            addFuncList.setModel(new DefaultListModel());
+            removeFuncList.setModel(new DefaultListModel());
+            panelInfo.setVisible(false);
+           
+        } catch (IOException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -32,7 +32,6 @@ public class AcessoBancoDeDados {
             oos.writeObject(lista);
         }
     }
-
     public void carregarListaManutencoes() throws IOException, ClassNotFoundException {
         File file = new File(arquivoManutencao);
 
@@ -62,8 +61,15 @@ public class AcessoBancoDeDados {
     }
     public void deletarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
-        this.manutencoes.remove(m);
+        Manutencao mCerta = null;
+        for (Manutencao n : this.manutencoes){
+            if (m.getId()==n.getId()){
+                mCerta = n;
+            }
+        }
+        this.manutencoes.remove(mCerta);
         this.salvarListaManutencoes(this.manutencoes);
+        this.carregarListaManutencoes();
     }
     public Manutencao pesquisaManutencao(int index) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
@@ -74,6 +80,7 @@ public class AcessoBancoDeDados {
         }
         return null;
     }
+    
     public void filtraPorId(DefaultListModel<String> listModel, String texto) throws IOException, ClassNotFoundException{
         try{
             this.carregarListaManutencoes();
@@ -243,6 +250,15 @@ public class AcessoBancoDeDados {
 
     public ArrayList<Funcionario> getFuncionarios() {
         return funcionarios;
+    }
+    public String[] getFuncionariosFormat() {
+        String[] s = new String[this.getFuncionarios().size()];
+        int i = 0;
+        for (Funcionario f : this.getFuncionarios()){
+            s[i] = f.getNome()+"/"+f.getMatricula();
+            i++;
+        }
+        return s;
     }
 
     public void setFuncionarios(ArrayList<Funcionario> funcionarios) {

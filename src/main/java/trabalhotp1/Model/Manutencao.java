@@ -106,7 +106,7 @@ public class Manutencao implements Serializable{
         String[] s = new String[this.getFuncionarios().size()];
         int i = 0;
         for (Funcionario f : this.getFuncionarios()){
-            s[i] = f.getNome();
+            s[i] = f.getNome()+"/"+f.getMatricula();
             i++;
         }
         return s;
