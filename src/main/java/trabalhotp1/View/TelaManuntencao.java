@@ -5,12 +5,15 @@
 package trabalhotp1.View;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import trabalhotp1.Controller.AcessoBancoDeDados;
 import trabalhotp1.Model.Eletrico;
@@ -138,6 +141,11 @@ public class TelaManuntencao extends javax.swing.JFrame {
         });
 
         removeFuncButton.setText("Remover Funcionário");
+        removeFuncButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeFuncButtonActionPerformed(evt);
+            }
+        });
 
         equipEdit.setText("Equipamento: ");
 
@@ -156,6 +164,11 @@ public class TelaManuntencao extends javax.swing.JFrame {
         });
 
         save.setText("Salvar");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Edite ou Delete a manutenção");
 
@@ -195,11 +208,11 @@ public class TelaManuntencao extends javax.swing.JFrame {
                             .addGroup(panelInfoLayout.createSequentialGroup()
                                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6)
-                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(dataEntregaTField, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                    .addComponent(prioridadeTField))
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(dataEntregaTField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(prioridadeTField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(addFuncButton)
@@ -544,8 +557,30 @@ public class TelaManuntencao extends javax.swing.JFrame {
 
     private void addFuncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFuncButtonActionPerformed
         // TODO add your handling code here:
+        for(String s :addFuncList.getSelectedValuesList()){
+            if(listModelContains(removeFuncList.getModel(), s)){
+                JOptionPane.showMessageDialog(null, "A pessoa selecionada já faz parte dessa manutenção!", "Erro", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+               
+                DefaultListModel<String> resultado= new DefaultListModel();
+                for(int i =0; i<removeFuncList.getModel().getSize(); i++){
+                    resultado.add(i, removeFuncList.getModel().getElementAt(i));
+                    
+                }
+                resultado.add(removeFuncList.getModel().getSize(), s);
+                removeFuncList.setModel(resultado);
+            }
+        }
+        
     }//GEN-LAST:event_addFuncButtonActionPerformed
-
+    public static boolean listModelContains(ListModel<String> model, String item) {
+        for (int i = 0; i < model.getSize(); i++) {
+            if (model.getElementAt(i).equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
     private void matriculaFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matriculaFuncActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_matriculaFuncActionPerformed
@@ -603,7 +638,7 @@ public class TelaManuntencao extends javax.swing.JFrame {
                     String[] func = valoresEscritos[2].split("/");
                     if (this.validaFuncionario(bd.pesquisaFuncionario(func[1]), bd.pesquisaEquipamento(equiCadList.getSelectedValue()))){
                         bd.criarManutencao(Prioridade.valueOf(prioCad.getSelectedValue().toUpperCase()),
-                                    bd.pesquisaFuncionario(func[2]),
+                                    bd.pesquisaFuncionario(func[1]),
                                     bd.pesquisaEquipamento(equiCadList.getSelectedValue()));
                         JOptionPane.showMessageDialog(null, "Cadastrado!", ":)", JOptionPane.INFORMATION_MESSAGE);
                 
@@ -691,6 +726,83 @@ public class TelaManuntencao extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_funcCadListMouseClicked
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        // TODO add your handling code here:
+        String selectedValue = listaResultado.getSelectedValue();
+        try {
+            boolean altera = false;
+            Manutencao mAtual = bd.pesquisaManutencao(Integer.parseInt(selectedValue));
+            if(!(dataEntregaTField.getText().equals(mAtual))){
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                mAtual.setDataEntrega(sdf.parse(dataEntregaTField.getText()));
+                altera = true;
+            }
+            if(!prioridadeTField.getText().toUpperCase().equals(String.valueOf(mAtual.getPrioridade()))){
+                mAtual.setPrioridade(Prioridade.valueOf(prioridadeTField.getText().toUpperCase()));
+                altera = true;
+            }
+            if(!removeFuncList.equals(mAtual.getFuncionariosFormat())){
+                ArrayList<Funcionario> f=new ArrayList();
+                for (int i = 0; i<removeFuncList.getModel().getSize();i++){
+                    String matr = removeFuncList.getModel().getElementAt(i).split("/")[1];
+                    f.add(bd.pesquisaFuncionario(matr));
+                }
+                mAtual.setFuncionarios(f);
+                altera = true;
+            }
+            bd.editaManutencao(Integer.parseInt(selectedValue), mAtual);
+            if (altera){
+                JOptionPane.showMessageDialog(null, "As Alterações foram salvas!", ":)", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void removeFuncButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFuncButtonActionPerformed
+        try {
+            ListModel todosFuncionarios = removeFuncList.getModel();
+            String nomeEquipamento = equipEdit.getText().substring(equipEdit.getText().indexOf(" ") + 1);
+            ArrayList<String> funcionarios = new ArrayList();
+            for(int i =0; i<todosFuncionarios.getSize();i++){
+                funcionarios.add(String.valueOf(todosFuncionarios.getElementAt(i)));
+            }
+            for (String s : removeFuncList.getSelectedValuesList()){
+                funcionarios.remove(s);
+            }
+            boolean ok = false;
+            for (String func: funcionarios){
+                Funcionario f = bd.pesquisaFuncionario(func.split("/")[1]);
+                if(validaFuncionario(f, bd.pesquisaEquipamento(nomeEquipamento))){
+                    ok = true;
+                }  
+            }
+            if(!ok){
+                JOptionPane.showMessageDialog(null, "A remoção de algum desses funcionários compromete a sua funcionalidade", "Erro", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                ArrayList<Funcionario> removeFunc = new ArrayList();
+                for(String nomeMat:funcionarios){
+                    removeFunc.add(bd.pesquisaFuncionario(nomeMat.split("/")[1]));
+                }
+                bd.pesquisaManutencao(Integer.parseInt(listaResultado.getSelectedValue())).removerFuncionario(removeFunc);
+                bd.salvarListaManutencoes(bd.getManutencoes());
+                DefaultListModel funcAtualizado = new DefaultListModel();
+                for (String item : funcionarios) {
+                    funcAtualizado.addElement(item);
+                }
+                removeFuncList.setModel(funcAtualizado);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TelaManuntencao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_removeFuncButtonActionPerformed
     public boolean validaFuncionario(Funcionario f, Equipamento e){
         if ((e instanceof Eletronico) && f.getEspecialidade().contains(Especialidade.Eletrônica)) {
             return true;

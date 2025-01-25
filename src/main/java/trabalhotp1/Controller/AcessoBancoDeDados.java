@@ -85,7 +85,15 @@ public class AcessoBancoDeDados {
         }
         return null;
     }
-    
+    public void editaManutencao(int index, Manutencao m) throws IOException, ClassNotFoundException{
+        this.carregarListaManutencoes();
+        for (int i = 0; i<this.manutencoes.size(); i++){
+            if(m.getId()==this.manutencoes.get(i).getId()){
+                this.manutencoes.set(i, m);
+            }
+        }
+        this.salvarListaManutencoes(this.manutencoes);
+    }
     public void filtraPorId(DefaultListModel<String> listModel, String texto) throws IOException, ClassNotFoundException{
         try{
             this.carregarListaManutencoes();
@@ -120,7 +128,7 @@ public class AcessoBancoDeDados {
             }
         } 
     }
-    
+   
     // Métodos para desenvolver a tela de equipamentos
     public void carregarListaEquipamentos() throws IOException, ClassNotFoundException {
         File file = new File(arquivoEquipamento);
@@ -165,6 +173,8 @@ public class AcessoBancoDeDados {
         }
         return null;
     }
+    
+    
     // Métodos para desenvolver a tela de funcionários
     public void carregarListaFuncionarios() throws IOException, ClassNotFoundException {
         File file = new File(arquivoFuncionario);

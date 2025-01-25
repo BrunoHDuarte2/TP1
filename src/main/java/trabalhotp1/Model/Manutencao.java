@@ -58,6 +58,11 @@ public class Manutencao implements Serializable{
             funcionarios.remove(f);
         }
     }
+    public void removerFuncionario(ArrayList<Funcionario> f){
+        for(Funcionario func : f){
+            this.funcionarios.remove(f);
+        }
+    }
     public void calculaDias(Prioridade p){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.dataAtual);
