@@ -217,7 +217,6 @@ public class AcessoBancoDeDados {
         this.carregarListaFuncionarios();
         for(Funcionario m : this.funcionarios){
             if(m.getMatricula().equals(mat)){
-                System.out.println(m);
                 return m;
             }
         }
