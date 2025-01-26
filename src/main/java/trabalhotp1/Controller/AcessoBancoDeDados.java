@@ -1,18 +1,15 @@
 
 package trabalhotp1.Controller;
-import java.awt.List;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import javax.swing.DefaultListModel;
 import trabalhotp1.Model.Equipamento;
-import trabalhotp1.Model.Especialidade;
 import trabalhotp1.Model.Funcionario;
 import trabalhotp1.Model.Manutencao;
 import trabalhotp1.Model.Prioridade;
 
-public class AcessoBancoDeDados {
+public class AcessoBancoDeDados implements utilidades{
     private String arquivoManutencao = "manutencao.dat";
     private ArrayList<Manutencao> manutencoes = new ArrayList();
     private String arquivoEquipamento = "equipamento.dat";
@@ -59,11 +56,13 @@ public class AcessoBancoDeDados {
         this.manutencoes.add(new Manutencao(this.manutencoes.size(), prioridade, f, equipamento));
         this.salvarListaManutencoes(this.manutencoes);
     }
+    @Override
     public void criarManutencao(Prioridade prioridade, ArrayList<Funcionario> f, Equipamento equipamento) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         this.manutencoes.add(new Manutencao(this.manutencoes.size(), prioridade, equipamento, f));
         this.salvarListaManutencoes(this.manutencoes);
     }
+    @Override
     public void deletarManutencao(Manutencao m) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         Manutencao mCerta = null;
@@ -76,6 +75,7 @@ public class AcessoBancoDeDados {
         this.salvarListaManutencoes(this.manutencoes);
         this.carregarListaManutencoes();
     }
+    @Override
     public Manutencao pesquisaManutencao(int index) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         for(Manutencao m : this.manutencoes){
@@ -85,6 +85,7 @@ public class AcessoBancoDeDados {
         }
         return null;
     }
+    @Override
     public void editaManutencao(int index, Manutencao m) throws IOException, ClassNotFoundException{
         this.carregarListaManutencoes();
         for (int i = 0; i<this.manutencoes.size(); i++){
@@ -132,8 +133,8 @@ public class AcessoBancoDeDados {
     // Métodos para desenvolver a tela de equipamentos
     public void carregarListaEquipamentos() throws IOException, ClassNotFoundException {
         File file = new File(arquivoEquipamento);
-        if (!file.exists() || file.length() == 0) { // Verifica se o arquivo existe ou está vazio
-            this.equipamentos = new ArrayList<>(); // Inicializa a lista como vazia
+        if (!file.exists() || file.length() == 0) { 
+            this.equipamentos = new ArrayList<>(); 
             System.out.println("Arquivo equipamentos.dat está vazio ou não existe. Criando lista vazia.");
             return;
         }
@@ -142,7 +143,7 @@ public class AcessoBancoDeDados {
             this.equipamentos = (ArrayList<Equipamento>) ois.readObject();
         } catch (EOFException e) {
             System.out.println("Fim do arquivo alcançado. Nenhum dado carregado.");
-            this.equipamentos = new ArrayList<>(); // Inicializa a lista como vazia
+            this.equipamentos = new ArrayList<>(); 
         } catch (Exception e) {
             System.err.println("Erro ao carregar equipamentos: " + e.getMessage());
             this.equipamentos = new ArrayList<>();
@@ -153,8 +154,8 @@ public class AcessoBancoDeDados {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(arquivoEquipamento))) {
             oos.writeObject(lista);
         }
-    }
-    public void criarEquipamento(Equipamento e) throws IOException, ClassNotFoundException{
+    } 
+   public void criarEquipamento(Equipamento e) throws IOException, ClassNotFoundException{
         this.carregarListaEquipamentos();
         this.equipamentos.add(e);
         this.salvarListaEquipamentos(this.equipamentos);
