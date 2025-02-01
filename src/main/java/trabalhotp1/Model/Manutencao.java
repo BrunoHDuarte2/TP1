@@ -15,7 +15,7 @@ import java.util.Calendar;
  */
 public class Manutencao implements Serializable{
     private static final long serialVersionUID = 1L;
-    
+    // Atributos Básicos
     private int id;
     private Date dataAtual;
     private Date dataEntrega;
@@ -29,7 +29,8 @@ public class Manutencao implements Serializable{
             Prioridade Media: 5 dias
             Prioridade Baixa: 7 dias
     */
-    
+    // Construtores 
+    // A única diferença é a "quantidade" de funcionários
     public Manutencao(int id, Prioridade prioridade, Funcionario f, Equipamento equipamento) {
         this.id = id;
         this.equipamento = equipamento;
@@ -38,7 +39,6 @@ public class Manutencao implements Serializable{
         this.dataAtual = new Date();
         this.calculaDias(prioridade);
     }
-
     public Manutencao(int id, Prioridade prioridade, Equipamento equipamento, ArrayList<Funcionario> f) {
         this.id = id;
         this.prioridade = prioridade;
@@ -47,22 +47,25 @@ public class Manutencao implements Serializable{
         this.dataAtual = new Date();
         this.calculaDias(prioridade);
     }
-    
+    // Adiciona funcionários
     public void alocarFuncionario(Funcionario f){
         if (!funcionarios.contains(f)){
             funcionarios.add(f);
         }
-    }    
+    }
+    // Remove funcionários    
     public void removerFuncionario(Funcionario f){
         if (funcionarios.contains(f)){
             funcionarios.remove(f);
         }
     }
+    // Remove funcionários  
     public void removerFuncionario(ArrayList<Funcionario> f){
         for(Funcionario func : f){
             this.funcionarios.remove(f);
         }
     }
+    // Regra de négocio para calcular a quantidade de dias para a entrega com base a prioridade
     public void calculaDias(Prioridade p){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(this.dataAtual);
@@ -99,6 +102,7 @@ public class Manutencao implements Serializable{
     public Date getDataEntrega() {
         return dataEntrega;
     }
+    // Métodos para auxiliar na formatação dos dados
     public String getDataEntregaFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(dataEntrega);

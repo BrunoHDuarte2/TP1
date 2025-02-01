@@ -805,16 +805,17 @@ public class TelaManuntencao extends javax.swing.JFrame {
     }                                                
     public boolean validaFuncionario(Funcionario f, Equipamento e){
         
-        /*
+        
         if ((e instanceof Eletronico) && f.getEspecialidade().contains(Especialidade.Eletrônica)) {
             return true;
         }
         if ((e instanceof Eletrico) && f.getEspecialidade().contains(Especialidade.Elétrica)) {
             return true;
         }
-        return (e instanceof Quimico) && f.getEspecialidade().contains(Especialidade.Química);
-        
-        */return true;
+        if ((e instanceof Quimico) && f.getEspecialidade().contains(Especialidade.Química)){
+            return true;
+        }
+        return false;
         
     }
     /**
