@@ -4,7 +4,7 @@
  */
 package trabalhotp1.Model;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class Administrador extends Funcionario {
 
-    public Administrador(String matricula, String nome, Date dataNascimento, String login, String senha, String setor, trabalhotp1.Model.Especialidade especialidade) {
+    public Administrador(String matricula, String nome, String dataNascimento, String login, String senha, String setor, String especialidade) {
         super(matricula, nome, dataNascimento, login, senha, setor, especialidade);
     }
     
