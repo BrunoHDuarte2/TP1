@@ -1,18 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package trabalhotp1.View;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import trabalhotp1.Model.Funcionario;
 
 /**
  *
  * @author brunosilva
  */
-
-import javax.swing.*;
-
-
 public class TelaFuncionarios extends javax.swing.JFrame {
+
+    private final List<Funcionario> listaFuncionarios = new ArrayList<>();
 
 
     public TelaFuncionarios() {
@@ -34,12 +34,14 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         jCheckBoxEletrica = new javax.swing.JCheckBox();
         jCheckBoxQuimica = new javax.swing.JCheckBox();
         jButtonCadastrar = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
+        jButtonEditar = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
+        jScrollPaneTabela = new javax.swing.JScrollPane();
+        jTableFuncionarios = new javax.swing.JTable();
         jLabelPesquisa = new javax.swing.JLabel();
-        jTextFieldPesquisaNome = new javax.swing.JTextField();
+        jTextFieldPesquisa = new javax.swing.JTextField();
+        jComboBoxFiltro = new javax.swing.JComboBox<>();
         jButtonPesquisar = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaResultado = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -60,14 +62,24 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         jButtonCadastrar.setText("Cadastrar");
         jButtonCadastrar.addActionListener(evt -> cadastrarFuncionario());
 
-        jLabelPesquisa.setText("Pesquisar Funcionário (Nome):");
+        jButtonEditar.setText("Editar");
+        jButtonEditar.addActionListener(evt -> editarFuncionario());
+
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(evt -> excluirFuncionario());
+
+        jTableFuncionarios.setModel(new DefaultTableModel(
+            new Object[][]{},
+            new String[]{"Nome", "Data Nascimento", "Setor", "Especialidade"}
+        ));
+        jScrollPaneTabela.setViewportView(jTableFuncionarios);
+
+        jLabelPesquisa.setText("Pesquisar:");
+
+        jComboBoxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"Nome", "Setor", "Especialidade"}));
 
         jButtonPesquisar.setText("Pesquisar");
         jButtonPesquisar.addActionListener(evt -> pesquisarFuncionario());
-
-        jTextAreaResultado.setColumns(20);
-        jTextAreaResultado.setRows(5);
-        jScrollPane1.setViewportView(jTextAreaResultado);
 
         // Layout
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -77,7 +89,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
+                    .addComponent(jScrollPaneTabela)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelNome)
@@ -95,16 +107,21 @@ public class TelaFuncionarios extends javax.swing.JFrame {
                             .addComponent(jTextFieldNome)
                             .addComponent(jTextFieldDataNascimento)
                             .addComponent(jTextFieldSetor)))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabelPesquisa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldPesquisaNome)
+                        .addComponent(jTextFieldPesquisa)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonPesquisar))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 310, Short.MAX_VALUE)
-                        .addComponent(jButtonCadastrar))
-                    .addComponent(jScrollPane1))
+                        .addGap(0, 300, Short.MAX_VALUE)
+                        .addComponent(jButtonCadastrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonExcluir)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -129,16 +146,18 @@ public class TelaFuncionarios extends javax.swing.JFrame {
                     .addComponent(jCheckBoxEletrica)
                     .addComponent(jCheckBoxQuimica))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonCadastrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCadastrar)
+                    .addComponent(jButtonEditar)
+                    .addComponent(jButtonExcluir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPesquisa)
-                    .addComponent(jTextFieldPesquisaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPesquisar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                .addComponent(jScrollPaneTabela, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -146,20 +165,83 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void cadastrarFuncionario() {
-        String nome = jTextFieldNome.getText();
-        String dataNascimento = jTextFieldDataNascimento.getText();
-        String setor = jTextFieldSetor.getText();
+    String nome = jTextFieldNome.getText();
+    String dataNascimento = jTextFieldDataNascimento.getText();
+    String setor = jTextFieldSetor.getText();
+    
+    String especialidades = getEspecialidadeSelecionada();
+    
+    Funcionario funcionario = new Funcionario(
+        "",                
+        nome,      
+        dataNascimento,           
+        "",        
+        "",                  
+        setor,                  
+        especialidades                   
+    );
+    
+    listaFuncionarios.add(funcionario);
+    
+    atualizarTabela();
+    limparCampos();
+}
+
+    private void editarFuncionario() {
+    int selectedRow = jTableFuncionarios.getSelectedRow();
+    if (selectedRow >= 0) {
+        Funcionario funcionario = listaFuncionarios.get(selectedRow);
+        
+        funcionario.setNome(jTextFieldNome.getText());
+        funcionario.setDataNascimento(jTextFieldDataNascimento.getText());
+        funcionario.setSetor(jTextFieldSetor.getText());
+        
+        String especialidades = getEspecialidadeSelecionada();
+        funcionario.setEspecialidade(especialidades);
+        
+        atualizarTabela();
+        limparCampos();
+    } else {
+        JOptionPane.showMessageDialog(this, "Selecione um funcionário para editar.");
+    }
+}
+
+    private void excluirFuncionario() {
+        int selectedRow = jTableFuncionarios.getSelectedRow();
+        if (selectedRow >= 0) {
+            listaFuncionarios.remove(selectedRow);
+            atualizarTabela();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um funcionário para excluir.");
+        }
+    }
+
+    private void pesquisarFuncionario() {
+    }
+
+    private void atualizarTabela() {
+        DefaultTableModel model = (DefaultTableModel) jTableFuncionarios.getModel();
+        model.setRowCount(0);
+        for (Funcionario f : listaFuncionarios) {
+            model.addRow(new Object[]{f.getNome(), f.getDataNascimento(), f.getSetor(), f.getEspecialidade()});
+        }
+    }
+
+    private String getEspecialidadeSelecionada() {
         String especialidade = "";
         if (jCheckBoxEletronica.isSelected()) especialidade += "Eletrônica ";
         if (jCheckBoxEletrica.isSelected()) especialidade += "Elétrica ";
         if (jCheckBoxQuimica.isSelected()) especialidade += "Química ";
-        JOptionPane.showMessageDialog(this, "Funcionário cadastrado:\nNome: " + nome +
-                "\nData de Nascimento: " + dataNascimento + "\nSetor: " + setor + "\nEspecialidade: " + especialidade);
+        return especialidade.trim();
     }
 
-    private void pesquisarFuncionario() {
-        String pesquisa = jTextFieldPesquisaNome.getText();
-        jTextAreaResultado.setText("Resultado da pesquisa para: " + pesquisa + "\n(Implementar lógica de busca)");
+    private void limparCampos() {
+        jTextFieldNome.setText("");
+        jTextFieldDataNascimento.setText("");
+        jTextFieldSetor.setText("");
+        jCheckBoxEletronica.setSelected(false);
+        jCheckBoxEletrica.setSelected(false);
+        jCheckBoxQuimica.setSelected(false);
     }
 
     public static void main(String args[]) {
@@ -167,21 +249,22 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }
 
     private javax.swing.JButton jButtonCadastrar;
+    private javax.swing.JButton jButtonEditar;
+    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonPesquisar;
-    private javax.swing.JCheckBox jCheckBoxEletrica;
     private javax.swing.JCheckBox jCheckBoxEletronica;
+    private javax.swing.JCheckBox jCheckBoxEletrica;
     private javax.swing.JCheckBox jCheckBoxQuimica;
+    private javax.swing.JComboBox<String> jComboBoxFiltro;
     private javax.swing.JLabel jLabelDataNascimento;
     private javax.swing.JLabel jLabelEspecialidade;
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelPesquisa;
     private javax.swing.JLabel jLabelSetor;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextArea jTextAreaResultado;
+    private javax.swing.JScrollPane jScrollPaneTabela;
+    private javax.swing.JTable jTableFuncionarios;
     private javax.swing.JTextField jTextFieldDataNascimento;
     private javax.swing.JTextField jTextFieldNome;
-    private javax.swing.JTextField jTextFieldPesquisaNome;
+    private javax.swing.JTextField jTextFieldPesquisa;
     private javax.swing.JTextField jTextFieldSetor;
 }
-
