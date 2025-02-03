@@ -1,5 +1,10 @@
 package trabalhotp1.View;
 
+/**
+ *
+ * @author brunosilva
+ */
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
@@ -7,14 +12,14 @@ import java.util.List;
 import trabalhotp1.Model.Funcionario;
 
 /**
- *
- * @author brunosilva
+ * Tela para cadastro, pesquisa e gerenciamento de funcionários.
  */
 public class TelaFuncionarios extends javax.swing.JFrame {
 
+    // Lista para armazenar os funcionários
     private final List<Funcionario> listaFuncionarios = new ArrayList<>();
 
-
+ 
     public TelaFuncionarios() {
         initComponents();
     }
@@ -169,20 +174,24 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     String dataNascimento = jTextFieldDataNascimento.getText();
     String setor = jTextFieldSetor.getText();
     
+    // Coletar as especialidades como uma String
     String especialidades = getEspecialidadeSelecionada();
     
+    // Criar o novo funcionário com os 7 parâmetros exigidos
     Funcionario funcionario = new Funcionario(
         "",                
-        nome,      
-        dataNascimento,           
+        nome,      //Nome
+        dataNascimento,         //Data de Nascimento
         "",        
-        "",                  
-        setor,                  
-        especialidades                   
+        "",                  // Parâmetro adicional 1 (substitua pelo valor correto)
+        setor,                  // o conteúdo desse campo está aparecendo como setor na lista
+        especialidades                   // o conteúdo desse campo está aparecendo como especialidade na lista
     );
     
+    // Adicionar o funcionário à lista
     listaFuncionarios.add(funcionario);
     
+    // Atualizar a tabela e limpar os campos
     atualizarTabela();
     limparCampos();
 }
@@ -190,15 +199,19 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private void editarFuncionario() {
     int selectedRow = jTableFuncionarios.getSelectedRow();
     if (selectedRow >= 0) {
+        // Obtém o funcionário selecionado na tabela
         Funcionario funcionario = listaFuncionarios.get(selectedRow);
         
+        // Atualiza os dados do funcionário
         funcionario.setNome(jTextFieldNome.getText());
         funcionario.setDataNascimento(jTextFieldDataNascimento.getText());
         funcionario.setSetor(jTextFieldSetor.getText());
         
+        // Coletar as especialidades como uma String
         String especialidades = getEspecialidadeSelecionada();
         funcionario.setEspecialidade(especialidades);
         
+        // Atualiza a tabela e limpa os campos
         atualizarTabela();
         limparCampos();
     } else {
@@ -217,6 +230,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     }
 
     private void pesquisarFuncionario() {
+        // Implementar a lógica de filtro
     }
 
     private void atualizarTabela() {
@@ -248,6 +262,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new TelaFuncionarios().setVisible(true));
     }
 
+    // Início da declaração de variáveis
     private javax.swing.JButton jButtonCadastrar;
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
@@ -267,4 +282,4 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldNome;
     private javax.swing.JTextField jTextFieldPesquisa;
     private javax.swing.JTextField jTextFieldSetor;
-}
+    // Fim da declaração de variáveis
