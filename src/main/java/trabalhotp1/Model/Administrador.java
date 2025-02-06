@@ -4,15 +4,14 @@
  */
 package trabalhotp1.Model;
 
-import java.util.ArrayList;
 
 /**
  *
- * @author bhdbr
+ * @author bhdbr/brunosilva
  */
 public class Administrador extends Funcionario {
 
-    public Administrador(String matricula, String nome, String dataNascimento, String login, String senha, String setor, String especialidade) {
+    public Administrador(String matricula, String nome, String dataNascimento, String login, String senha, String setor, Especialidade especialidade) {
         super(matricula, nome, dataNascimento, login, senha, setor, especialidade);
     }
     
