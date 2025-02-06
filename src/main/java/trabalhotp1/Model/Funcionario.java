@@ -5,6 +5,8 @@
 package trabalhotp1.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -16,27 +18,21 @@ public class Funcionario implements Serializable {
     
     private String matricula;
     private String nome;
-    private String dataNascimento;
+    private Date dataNascimento; 
     private String login;
     private String senha; 
-    private  String setor;
-    private Especialidade especialidade; // Agora é uma enumeração
+    private String setor;
+    private ArrayList<Especialidade> especialidades; // Agora é uma lista de enumerações
     
-    public Funcionario(String matricula, String nome, String dataNascimento, String login, String senha, String setor, Especialidade especialidade) {
+    public Funcionario(String matricula, String nome, Date dataNascimento, String login, String senha, String setor, ArrayList<Especialidade> especialidades) {
         this.matricula = matricula;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.login = login;
         this.senha = senha;
         this.setor = setor;
-        this.especialidade = especialidade;
+        this.especialidades = especialidades;
     }
-
-    public Funcionario(String nome, String dataNascimento, String setor, String especialidade) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
- 
   
 
     public String getMatricula() {
@@ -55,11 +51,11 @@ public class Funcionario implements Serializable {
         this.nome = nome;
     }
 
-    public String getDataNascimento() {
+    public Date getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -87,12 +83,12 @@ public class Funcionario implements Serializable {
         this.setor = setor;
     }
 
-    public Especialidade getEspecialidade() {
-        return especialidade;
+    public ArrayList<Especialidade> getEspecialidade() {
+        return especialidades;
     }
 
-    public void setEspecialidade(Especialidade especialidade) {
-        this.especialidade = especialidade;
+    public void setEspecialidade(ArrayList<Especialidade> especialidades) {
+        this.especialidades = especialidades;
     }
 
 }
