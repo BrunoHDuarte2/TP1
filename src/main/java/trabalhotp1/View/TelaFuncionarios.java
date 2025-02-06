@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
+import trabalhotp1.Model.Especialidade;
 import trabalhotp1.Model.Funcionario;
 
 /**
@@ -175,7 +176,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     String setor = jTextFieldSetor.getText();
     
     // Coletar as especialidades como uma String
-    String especialidades = getEspecialidadeSelecionada();
+     Especialidade especialidade = getEspecialidadeSelecionada();
     
     // Criar o novo funcionário com os 7 parâmetros exigidos
     Funcionario funcionario = new Funcionario(
@@ -183,9 +184,9 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         nome,      //Nome
         dataNascimento,         //Data de Nascimento
         "",        
-        "",                  // Parâmetro adicional 1 (substitua pelo valor correto)
+        "",                  
         setor,                  // o conteúdo desse campo está aparecendo como setor na lista
-        especialidades                   // o conteúdo desse campo está aparecendo como especialidade na lista
+        especialidade                   // o conteúdo desse campo está aparecendo como especialidade na lista
     );
     
     // Adicionar o funcionário à lista
@@ -208,8 +209,7 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         funcionario.setSetor(jTextFieldSetor.getText());
         
         // Coletar as especialidades como uma String
-        String especialidades = getEspecialidadeSelecionada();
-        funcionario.setEspecialidade(especialidades);
+         Especialidade especialidade = getEspecialidadeSelecionada();
         
         // Atualiza a tabela e limpa os campos
         atualizarTabela();
@@ -241,13 +241,17 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         }
     }
 
-    private String getEspecialidadeSelecionada() {
-        String especialidade = "";
-        if (jCheckBoxEletronica.isSelected()) especialidade += "Eletrônica ";
-        if (jCheckBoxEletrica.isSelected()) especialidade += "Elétrica ";
-        if (jCheckBoxQuimica.isSelected()) especialidade += "Química ";
-        return especialidade.trim();
+    private Especialidade getEspecialidadeSelecionada() {
+    if (jCheckBoxEletronica.isSelected()) {
+        return Especialidade.Eletrônica;
+    } else if (jCheckBoxEletrica.isSelected()) {
+        return Especialidade.Elétrica;
+    } else if (jCheckBoxQuimica.isSelected()) {
+        return Especialidade.Química;
+    } else {
+        throw new IllegalStateException("Nenhuma especialidade selecionada.");
     }
+}
 
     private void limparCampos() {
         jTextFieldNome.setText("");
@@ -283,3 +287,4 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldPesquisa;
     private javax.swing.JTextField jTextFieldSetor;
     // Fim da declaração de variáveis
+}
