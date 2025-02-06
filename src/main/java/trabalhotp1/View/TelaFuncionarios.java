@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import trabalhotp1.Model.Especialidade;
 import trabalhotp1.Model.Funcionario;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Tela para cadastro, pesquisa e gerenciamento de funcionários.
@@ -170,13 +173,31 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
+
+private Date converterStringParaDate(String dataStr) {
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); // Define o formato da data
+    try {
+        return formato.parse(dataStr); // Converte a String para Date
+    } catch (ParseException e) {
+        JOptionPane.showMessageDialog(this, "Formato de data inválido. Use o formato dd/MM/yyyy.");
+        return null; // Retorna null em caso de erro
+    }
+}
+    
+    
+    
     private void cadastrarFuncionario() {
     String nome = jTextFieldNome.getText();
-    String dataNascimento = jTextFieldDataNascimento.getText();
+    String dataNascimentoStr = jTextFieldDataNascimento.getText();
     String setor = jTextFieldSetor.getText();
     
+    Date dataNascimento = converterStringParaDate(dataNascimentoStr);
+    if (dataNascimento == null) {
+        return; // Se a conversão falhar, interrompe o cadastro
+    }
+    
     // Coletar as especialidades como uma String
-     Especialidade especialidade = getEspecialidadeSelecionada();
+    ArrayList<Especialidade> especialidades = getEspecialidadesSelecionadas();
     
     // Criar o novo funcionário com os 7 parâmetros exigidos
     Funcionario funcionario = new Funcionario(
@@ -184,9 +205,9 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         nome,      //Nome
         dataNascimento,         //Data de Nascimento
         "",        
-        "",                  
+        "",                  // Parâmetro adicional 1 (substitua pelo valor correto)
         setor,                  // o conteúdo desse campo está aparecendo como setor na lista
-        especialidade                   // o conteúdo desse campo está aparecendo como especialidade na lista
+        especialidades                   // o conteúdo desse campo está aparecendo como especialidade na lista
     );
     
     // Adicionar o funcionário à lista
@@ -205,11 +226,18 @@ public class TelaFuncionarios extends javax.swing.JFrame {
         
         // Atualiza os dados do funcionário
         funcionario.setNome(jTextFieldNome.getText());
-        funcionario.setDataNascimento(jTextFieldDataNascimento.getText());
+        
+        String dataNascimentoStr = jTextFieldDataNascimento.getText();
+        Date dataNascimento = converterStringParaDate(dataNascimentoStr);
+        if (dataNascimento != null) {
+            funcionario.setDataNascimento(dataNascimento);
+        }
+        
         funcionario.setSetor(jTextFieldSetor.getText());
         
         // Coletar as especialidades como uma String
-         Especialidade especialidade = getEspecialidadeSelecionada();
+        ArrayList<Especialidade> especialidades = getEspecialidadesSelecionadas();
+        funcionario.setEspecialidade(especialidades);
         
         // Atualiza a tabela e limpa os campos
         atualizarTabela();
@@ -232,27 +260,49 @@ public class TelaFuncionarios extends javax.swing.JFrame {
     private void pesquisarFuncionario() {
         // Implementar a lógica de filtro
     }
+    
+    private String converterDateParaString(Date data) {
+    SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); // Define o formato da data
+    return formato.format(data); // Converte a Date para String
+}
 
     private void atualizarTabela() {
         DefaultTableModel model = (DefaultTableModel) jTableFuncionarios.getModel();
         model.setRowCount(0);
         for (Funcionario f : listaFuncionarios) {
-            model.addRow(new Object[]{f.getNome(), f.getDataNascimento(), f.getSetor(), f.getEspecialidade()});
+            // Converter a lista de especialidades em uma String separada por vírgula
+            StringBuilder especialidadesStr = new StringBuilder();
+            for (Especialidade especialidade : f.getEspecialidade()) {
+                if (especialidadesStr.length() > 0) {
+                    especialidadesStr.append(", ");
+            }
+            especialidadesStr.append(especialidade.name()); // Usa o nome da enumeração
+        }
+            
+                    // Converter a data de nascimento de Date para String
+            String dataNascimentoStr = converterDateParaString(f.getDataNascimento());
+
+            
+            model.addRow(new Object[]{f.getNome(), dataNascimentoStr, f.getSetor(), especialidadesStr.toString()});
         }
     }
 
-    private Especialidade getEspecialidadeSelecionada() {
+private ArrayList<Especialidade> getEspecialidadesSelecionadas() {
+    ArrayList<Especialidade> especialidades = new ArrayList<>();
+    
     if (jCheckBoxEletronica.isSelected()) {
-        return Especialidade.Eletrônica;
-    } else if (jCheckBoxEletrica.isSelected()) {
-        return Especialidade.Elétrica;
-    } else if (jCheckBoxQuimica.isSelected()) {
-        return Especialidade.Química;
-    } else {
-        throw new IllegalStateException("Nenhuma especialidade selecionada.");
+        especialidades.add(Especialidade.Eletrônica);
     }
+    if (jCheckBoxEletrica.isSelected()) {
+        especialidades.add(Especialidade.Elétrica);
+    }
+    if (jCheckBoxQuimica.isSelected()) {
+        especialidades.add(Especialidade.Química);
+    }
+    
+    return especialidades;
 }
-
+    
     private void limparCampos() {
         jTextFieldNome.setText("");
         jTextFieldDataNascimento.setText("");
