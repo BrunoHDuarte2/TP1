@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author bhdbr
+ * @author bhdbr/brunosilva
  */
 public class Funcionario implements Serializable {
     private static final long serialVersionUID = 7526306044279317864L;
