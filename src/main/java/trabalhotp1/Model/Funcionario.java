@@ -20,9 +20,9 @@ public class Funcionario implements Serializable {
     private String login;
     private String senha; 
     private  String setor;
-    private String especialidade;
-
-    public Funcionario(String matricula, String nome, String dataNascimento, String login, String senha, String setor, String especialidade) {
+    private Especialidade especialidade; // Agora é uma enumeração
+    
+    public Funcionario(String matricula, String nome, String dataNascimento, String login, String senha, String setor, Especialidade especialidade) {
         this.matricula = matricula;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -87,11 +87,11 @@ public class Funcionario implements Serializable {
         this.setor = setor;
     }
 
-    public String getEspecialidade() {
+    public Especialidade getEspecialidade() {
         return especialidade;
     }
 
-    public void setEspecialidade(String especialidade) {
+    public void setEspecialidade(Especialidade especialidade) {
         this.especialidade = especialidade;
     }
 
