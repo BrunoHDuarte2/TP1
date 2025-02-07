@@ -5,11 +5,9 @@
 package trabalhotp1.Controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
-import trabalhotp1.Model.Eletrico;
-import trabalhotp1.Model.Eletronico;
 import trabalhotp1.Model.Especialidade;
-import trabalhotp1.Model.Estado;
 import trabalhotp1.Model.Funcionario;
 
 /**
@@ -18,8 +16,11 @@ import trabalhotp1.Model.Funcionario;
  */
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        
-       
+        AcessoBancoDeDados bd = new AcessoBancoDeDados();
+        for(Funcionario f : bd.getFuncionarios()){
+            System.out.println(f.getNome());
+            System.out.println(f.getEspecialidade());
+        }
     }
 }
 

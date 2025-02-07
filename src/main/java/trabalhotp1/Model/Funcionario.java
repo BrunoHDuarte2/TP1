@@ -22,8 +22,7 @@ public class Funcionario implements Serializable {
     private String login;
     private String senha; 
     private String setor;
-    private ArrayList<Especialidade> especialidades; // Agora é uma lista de enumerações
-    
+    private ArrayList<Especialidade> especialidades = new ArrayList(); // Agora é uma lista de enumerações
     public Funcionario(String matricula, String nome, Date dataNascimento, String login, String senha, String setor, ArrayList<Especialidade> especialidades) {
         this.matricula = matricula;
         this.nome = nome;
